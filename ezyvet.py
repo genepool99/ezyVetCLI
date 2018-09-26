@@ -50,7 +50,7 @@ class ezyvet:
             self.url = settings["PROD_URL"]
         else:
             self.url = settings["SAND_URL"]
-
+        self.initConnection()
 
     def initConnection(self):
         try:
@@ -60,7 +60,7 @@ class ezyvet:
                     # lets see if we have a stored token
                     self.token = readJson("token.json")
                     if self.token is None:
-                        self.token = fetchToken()
+                        self.token = self.fetchToken()
                     # Lets test the Token
                         if self.testToken() is None:
                             self.logger.info("Token not working, retry.")
@@ -111,8 +111,14 @@ class ezyvet:
                 'Cache-Control': "no-cache"
             }
             r = requests.request("POST", self.url + "/oauth/access_token", json=payload, headers=headers)
-            writeJson(r.content, "token.json")
-            return r.content
+            token = r.json()
+            if "access_token" not in token:
+                self.logger.error("ERROR: We got a message not a access token")
+                self.logger.error(pformat(token))
+                writeJson(token, "err.json")
+                sys.exit(2)
+            writeJson(token, "token.json")
+            return token
 
         except requests.exceptions.ConnectionError:
             self.logger.error("ERROR: fetchToken - Connection error", exc_info=True)
