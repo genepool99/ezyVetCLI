@@ -6,6 +6,7 @@ from ezyvet import ezyvet
 from pprint import pprint,pformat
 import logging
 import sys
+import getopt
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,10 +15,10 @@ def main():
     ''' Main function to parce commandline options
     '''
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "lvpr", ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], "vT", ["help"])
     except getopt.GetoptError as err:
         # print help information and die:
-        print str(err)
+        print(err)
         usage()
         sys.exit(2)
 
@@ -33,8 +34,13 @@ def main():
                 if o == "-v":
                     logging.basicConfig(level=logging.DEBUG)
 
-                if o in ("-h", "--help"):
+                elif o in ("-h", "--help"):
                     usage()
+                    sys.exit(0)
+
+                elif o == "-T":
+                    # Test the connection
+                    ezy = ezyvet(SETTINGS, logger)
                     sys.exit(0)
 
                 elif o == "-p":
@@ -43,10 +49,10 @@ def main():
                     coms =  dove.getPendingCommunications()
                     if coms is not None:
                         for p in coms:
-                            print p
-                        print "There are " + str(len(coms)) + " communications."
+                            print(p)
+                        print("There are ", str(len(coms)), " communications.")
                     else:
-                        print "There are no pending communications."
+                        print("There are no pending communications.")
 
                 else:
                     usage()
@@ -55,11 +61,12 @@ def main():
         logger.error("Something went wrong, bye.", exc_info=True)
 
 def usage():
-    print "\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.1"
-    print "USAGE: >python ezyvet_cli.py [OPTIONS]"
-    print "\t -h or --help: Get Help (print this help text)"
-    print "\t -v: Verbose Output"
-    print ""
+    print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.1")
+    print("USAGE: >python ezyvet_cli.py [OPTIONS]")
+    print("\t -h or --help: Get Help (print this help text)")
+    print("\t -T Test connection to API and exit")
+    print("\t -v: Verbose Output")
+    print("")
 
 if __name__ == "__main__":
     main()
