@@ -1,2 +1,4 @@
 /settings.py
 /venv/
+/token.json
+/err.json
