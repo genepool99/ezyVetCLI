@@ -16,14 +16,14 @@ Git: https://gitlab.com/genepool99/ezyvet
 or  
 `sudo apt-get install python3-venv`  
 
-### Create a new virtualenv
-`python3 -m venv /ezyvet/venv`
+### Create a new virtualenv in the project directory
+`python3 -m venv venv`
 
 ### Activate the virtualenv
-`$source path_to_virtualenv/bin/active`
+`source path_to_virtualenv/bin/active`
 
 ### Install dependencies
-`cd ezyvet`  
+In the base ezyvetcli directory run
 `pip install -r requirements.txt`  
 
 ### leave the virtual env
@@ -34,8 +34,7 @@ Python3 (3.5.2+)
 
 ### Directory structure
 ezyvet
-  -wenv       <- the virtual environment
-    -static   <- any static assets we might want to serve, like an html page
+  -venv       <- the virtual environment
 
 ### Saving dependencies
 After adding or upgrading modules you must run `pip freeze > requirements.txt` and commit the requirments.txt.
