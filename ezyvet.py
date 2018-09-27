@@ -89,6 +89,9 @@ class ezyvet:
             # Get some trivial data to test the token
             r = requests.request("POST", self.url + "/address?country_id=153", headers=headers)
             return r.content
+        except TypeError:
+            self.logger.info("ERROR: Token var does not have a token in it.", exc_info=True)
+            sys.exit(0)
         except NameError:
             self.logger.info("INFO: Token did not work.", exc_info=True)
             return None
@@ -104,7 +107,7 @@ class ezyvet:
                 "client_id": self.settings['CLIENT_ID'],
                 "client_secret": self.settings['CLIENT_SECRET'],
                 "grant_type": "client_credentials",
-                "scope":"read-address,read-animal,read-animalcolour,read-appointment,read-appointmentstatus,read-appointmenttype,read-assessment,read-attachment,read-breed,read-consult,read-contact,read-contactdetail,read-contactdetailtype,read-country,read-diagnostic,read-diagnosticrequest,read-diagnosticresult,read-diagnosticresultitem,read-healthstatus,read-history,read-integrateddiagnostic,read-invoice,read-invoiceline,read-operation,read-payment,read-paymentallocation,read-paymentmethod,read-physicalexam,read-plan,read-prescription,read-prescriptionitem,read-presentingproblem,read-presentingproblemlink,read-product,read-productgroup,read-purchaseorder,read-purchaseorderitem,read-receiveinvoice,read-receiveinvoiceitem,read-resource,read-separation,read-sex,read-species,read-systemsetting,read-tag,read-tagcategory,read-therapeutic,read-user,read-vaccination"
+                "scope":"read-address"
             }
             headers = {
                 'Content-Type': "application/x-www-form-urlencoded",
@@ -113,7 +116,7 @@ class ezyvet:
             r = requests.request("POST", self.url + "/oauth/access_token", json=payload, headers=headers)
             token = r.json()
             if "access_token" not in token:
-                self.logger.error("ERROR: We got a message not a access token")
+                self.logger.error("ERROR: We got a message not an access token")
                 self.logger.error(pformat(token))
                 writeJson(token, "err.json")
                 sys.exit(2)
