@@ -20,7 +20,7 @@ or
 `python3 -m venv venv`
 
 ### Activate the virtualenv
-`source path_to_virtualenv/bin/active`
+`source source venv/bin/activate`
 
 ### Install dependencies
 In the base ezyvetcli directory run
