@@ -1,3 +1,4 @@
+# Save this file as settings.py in the root directory of this project
 SETTINGS = {
     "PROD_URL":"https://api.ezyvet.com/v1",
     "SAND_URL":"https://api.trial.ezyvet.com/v1",
