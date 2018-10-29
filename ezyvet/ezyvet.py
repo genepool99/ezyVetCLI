@@ -61,8 +61,8 @@ class ezyvet:
         Given a name return the appointment status ID or None
         Given an ID, return the status name or None
 
-    getAppointment(self, filters=None)
-        Get an array of appointments optionally filtered
+    getAppointment(self, filters=None, maxpages=1)
+        Get an array of appointments optionally filtered. Pages contain up to 10 records.
 
     """
 
@@ -131,7 +131,7 @@ class ezyvet:
             Returns a status code
         """
         if self.token is None or 'access_token' not in self.token:
-            self.logger("Token sent for testing was missing")
+            self.logger.info("Token sent for testing was missing")
             return None
         try:
             self.logger.debug("Token: " + self.token["access_token"])
@@ -176,7 +176,7 @@ class ezyvet:
             response = r.json()
             if "access_token" not in response:
                 self.logger.error("ERROR: We got a message not an access token")
-                self.logger.error(pformat(token))
+                self.logger.error(pformat(response))
                 writeJson(response, "err.json")
                 sys.exit(2)
             writeJson(response, "token.json")
@@ -309,7 +309,7 @@ class ezyvet:
     def getAppointment(self, filter=None, maxpages=1):
         """ Get appointments given various filters.
             Arguments:
-                filters: a dictonary of filters. Here is a example:
+                filter: a dictonary of filters. Here is a example:
                 filters = {
                     'id': 23,
                     'active': True,
@@ -327,3 +327,21 @@ class ezyvet:
 
         except:
             self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
+
+    def getCommunication(self, filter=None, maxpages=1):
+        """Get communications given various filters.
+            Arguments:
+                filter: a dictonary of filters.
+                maxpages: limits the total number of records returned 1 page = 10 records
+
+            Returns: an array of communications
+        """
+        try:
+            # Build the query string
+            url = "/communication"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+
+        except:
+            self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
