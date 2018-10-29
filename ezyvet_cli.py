@@ -32,7 +32,7 @@ def main():
     ''' Main function to parce commandline options
     '''
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "vThsa:", ["help", "debug", "aptStatCode=", "max="])
+        opts, args = getopt.getopt(sys.argv[1:], "vThsa:c:", ["help", "debug", "aptStatCode=", "max="])
     except getopt.GetoptError as err:
         # print help information and die:
         print(err)
@@ -45,7 +45,13 @@ def main():
             sys.exit(0)
 
         else:
-            mode = None
+
+            # First find out if we have to set maxpages
+            max = None
+            for 0, a in opts:
+                if o == "--max":
+                    max = int(round(int(a))//10)      # round max records to nearest 10 then devide by to to get max pages
+                    logger.info("Limiting records to " + str(max))
 
             for o, a in opts:
                 if o == "-v":                                   # Turn on Verbose
@@ -76,22 +82,35 @@ def main():
                     if code is not None:
                         print(code)
 
-                elif o == "-a":
+                elif o == "-a":                                 # lookup appointments
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up appointments with filter: " + str(a))
-                    max = 1
-                    for opt, val in opts:
-                        if opt == "--max":
-                            max = int(round(int(val))//10)      # round max records to nearest 10 then devide by to to get max pages
-                            logger.info("Limiting records to " + str(max))
-                    apts = e.getAppointment(filter = json.loads(a), maxpages=max)
-                    if apts is not None:
-                        pprint(apts)
+                    if max is None:
+                        max = 1
+                    if not a:
+                        a = "{}"
 
-                elif o == "--max":
+                    logger.info("Limiting records to " + str(max))
+                    data = e.getAppointment(filter = json.loads(a), maxpages=max)
+                    if data is not None:
+                        pprint(data)
+
+                elif o == "--max":                              # check if max is set alone
                     logger.info("Max records option set to " + str(a))
-                    if len(o) < 1:
-                        print("The option --max needs to be specified with a query like -a.")
+                    if len(opts) == 1:
+                        print("The option --max should be specified with a query like -a, but not alone.")
+
+                elif o == "-c":                                 # lookup consults
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up consults with filter: " + str(a))
+                    if max is None:
+                        max = 1
+                    if not a:
+                        a = "{}"
+
+                    data = e.getConsult(filter = json.loads(a), maxpages=max)
+                    if data is not None:
+                        pprint(data)
 
                 else:
                     usage()
@@ -101,14 +120,15 @@ def main():
         logger.error("Something went wrong, bye.", exc_info=True)
 
 def usage():
-    print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.1")
+    print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.1.1")
     print("USAGE: >python3 ezyvet_cli.py [OPTIONS]")
     print("\t -h or --help: Get Help (print this help text)")
     print("\t -T Test connection to API and exit")
     print("\t -s Get all appointment status codes")
+    print("\t -a \"[filters as json or empty string]\" Lookup appointments ")
+    print("\t -c \"[filters as json or empty string]\" Lookup consults ")
+    print("\t --max [int] Maximum records returned. Will be rounded to the nearest multiple of 10, default 10.")
     print("\t --aptStatCode [id|name] Lookup appointment status code (by name or id)")
-    print("\t -a [filters as json] Lookup appointments ")
-    print("\t --max [int] Maximum records returned. Must be a multiple of 10, default 10.")
     print("\t -v: Verbose output")
     print("\t --debug: Very verbose output")
     print("")

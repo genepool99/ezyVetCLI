@@ -24,6 +24,7 @@ from pprint import pprint,pformat
 import re
 import logging
 import sys
+import os
 from urllib.parse import urlencode
 from ezyvet.ezhelpers import writeJson, readJson
 
@@ -80,6 +81,7 @@ class ezyvet:
         try:
             self.logger = logger or logging.getLogger(__name__)
             self.settings = settings
+
             if sandbox is False:
                 self.url = settings["PROD_URL"]
                 self.partner_id = self.settings['PARTNER_ID'],
@@ -90,27 +92,40 @@ class ezyvet:
                 self.partner_id = self.settings['PARTNER_ID'],
                 self.client_id = self.settings['CLIENT_ID_SAND'],
                 self.client_secret = self.settings['CLIENT_SECRET_SAND'],
+            self.scope = ','.join(settings['SCOPE'])    # make the list into a comma seperated string
+            self.logger.debug("Scope: " + str(self.scope))
+            self.home_dir = str(self.settings['HOME_DIR'])
+            if self.home_dir[-1:] is not "/" or self.home_dir[-1:] is not "\\":
+                if '\\' in self.home_dir:
+                    self.home_dir = self.home_dir + '\\'     # for windows users
+                else:
+                    self.home_dir = self.home_dir + '/'
+            self.logger.info("Using working directory: " + self.home_dir)
+
+            if self.partner_id == '' or self.client_id == '' or self.client_secret == '' or self.scope == '':
+                self.logger.error("The settings file is incomplete. Make sure the partner id, client id, secret and scope are filled in.")
+                sys.exit(2)
+
             self.initConnection()
         except:
             self.logger.error("ERROR: init Failed", exc_info=True)
-            return None
 
     def initConnection(self):
         try:
             self.s = requests.session()
             for attempt in range(1):                             # number to make repeated attempts to init
                 try:
-                    self.logger.info("INFO: Reading stored access token.")
-                    self.token = readJson("token.json")         # lets see if we have a stored token
+                    self.logger.info("Reading stored access token.")
+                    self.token = readJson(self.home_dir + "token.json")         # lets see if we have a stored token
                     if self.token is None:
-                        self.logger.info("INFO: No stored token, fetching new one.")
+                        self.logger.info("No stored token, fetching new one.")
                         self.token = self.fetchToken()
 
-                    self.logger.info("INFO: Testing token.")
+                    self.logger.info("Testing token.")
                     if self.testToken() is not 200:                # Lets test the Token
-                        self.logger.info("INFO: Test Failed, refreshing token.")
+                        self.logger.info("Test Failed, refreshing token.")
                         self.token = self.fetchToken()
-                        self.logger.info("INFO: Re-testing token.")
+                        self.logger.info("Re-testing token.")
                         if self.testToken() is not 200:
                             self.logger.error("ERROR: Refreshing token did not work, quiting.")
                             sys.exit(2)
@@ -156,13 +171,12 @@ class ezyvet:
     def fetchToken(self):
         """ Get a fresh access token from the API"""
         try:
-            # TODO: add scope to settings file
             payload = {
                 "partner_id": self.partner_id,
                 "client_id": self.client_id,
                 "client_secret": self.client_secret,
                 "grant_type": "client_credentials",
-                "scope":"read-address,read-animal,read-animalcolour,read-appointment,read-appointmentstatus,read-appointmenttype,read-assessment,read-attachment,read-breed,read-consult,read-contact,read-contactdetail,read-contactdetailtype,read-country,read-diagnostic,read-diagnosticrequest,read-diagnosticresult,read-diagnosticresultitem,read-healthstatus,read-history,read-integrateddiagnostic,read-invoice,read-invoiceline,read-operation,read-payment,read-paymentallocation,read-paymentmethod,read-physicalexam,read-plan,read-prescription,read-prescriptionitem,read-presentingproblem,read-presentingproblemlink,read-product,read-productgroup,read-purchaseorder,read-purchaseorderitem,read-receiveinvoice,read-receiveinvoiceitem,read-resource,read-separation,read-sex,read-species,read-systemsetting,read-tag,read-tagcategory,read-therapeutic,read-user,read-vaccination"
+                "scope":self.scope
             }
 
             headers = {
@@ -177,10 +191,13 @@ class ezyvet:
             if "access_token" not in response:
                 self.logger.error("ERROR: We got a message not an access token")
                 self.logger.error(pformat(response))
-                writeJson(response, "err.json")
+                writeJson(response, self.home_dir + "err.json")
+                self.logger.info("Wrote error to " + self.home_dir + "err.json")
                 sys.exit(2)
-            writeJson(response, "token.json")
+
+            writeJson(response, self.home_dir + "token.json")
             self.logger.info("Got access token: " + response["access_token"])
+            self.logger.info("Wrote token to " + self.home_dir + "err.json")
             return response
 
         except requests.exceptions.ConnectionError:
@@ -332,9 +349,12 @@ class ezyvet:
         """Get communications given various filters.
             Arguments:
                 filter: a dictonary of filters.
-                maxpages: limits the total number of records returned 1 page = 10 records
+                maxpages: limits the total number of records returned (1 page = 10 records)
 
             Returns: an array of communications
+
+            Note: This function requires the read-communication scope which is
+            not currently available to me, so I cannot test.
         """
         try:
             # Build the query string
@@ -345,3 +365,21 @@ class ezyvet:
 
         except:
             self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
+
+    def getConsult(self, filter=None, maxpages=1):
+        """Get consult data given various filters.
+            Arguments:
+                filter: a dictonary of filters.
+                maxpages: limits the total number of records returned (1 page = 10 records)
+
+            Returns: an array of consult data
+        """
+        try:
+            # Build the query string
+            url = "/consult"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
