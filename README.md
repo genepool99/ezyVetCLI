@@ -34,7 +34,7 @@ Copy `setting_Example.py` as `settings.py` and fill in your credential details.
 This file is should not be under source control and should be explicitly ignored.
 
 ## Development server setup
-### Clone the production branch
+### Clone the production branch which will always be stable.
 Git: https://gitlab.com/genepool99/ezyvet  
 `git clone -b production git@gitlab.com:genepool99/ezyvet.git`  
 
@@ -45,17 +45,22 @@ or
 Using APT:
 `sudo apt-get install python3-venv`  
 
-### Create a new virtualenv in the project directory
+### CD into the project directory and create a new virtualenv
 `python3 -m venv venv`
 
-### Activate the virtualenv
+### Activate the virtualenv using a bash shell (does not work with fish or csh)
 `source source venv/bin/activate`
 
-### Install dependencies
+### Install the dependencies
 In the base ezyvetcli directory run
 `pip install -r requirements.txt`  
 
-### leave the virtual env
+### Test your environment
+`python3 ezyvet_cli --debug -T`
+There will be a verbose output, but you should see no "ERROR:" messages and
+"INFO:__main__:Init Complete." at the end.
+
+### When your done leave the virtual env with
 `deactivate`  
 
 ## Coding standards
@@ -70,7 +75,10 @@ After adding or upgrading modules you must run `pip freeze > requirements.txt` a
 
 ## Using the CLI
 To test your credentials and setup with verbose output:
-`python3 ezyvetcli -v -T`
+`python3 ezyvet_cli -v -T`
+
+Get help using the program:
+`python3 ezyvet_cli.py --help`
 
 Get the list of appointment status codes:
 `python3 ezyvet_cli.py -s`
