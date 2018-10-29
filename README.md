@@ -1,6 +1,6 @@
 # ezyVetCli
 
-A command line interface and Python library for the ezyVet
+A command line interface and Python library for ezyVet
 (https://www.ezyvet.com/).
 
 ## License
@@ -35,8 +35,8 @@ This file is should not be under source control and should be explicitly ignored
 
 ## Development server setup
 ### Clone the production branch which will always be stable.
-Git: https://gitlab.com/genepool99/ezyvet  
-`git clone -b production git@gitlab.com:genepool99/ezyvet.git`  
+Git: https://gitlab.com/genepool99/ezyvetcli  
+`git clone -b production git@gitlab.com:genepool99/ezyvetcli.git`  
 
 ### Install venv
 Using PIP:
