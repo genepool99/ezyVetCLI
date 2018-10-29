@@ -74,6 +74,8 @@ ezyvetcli
 After adding or upgrading modules you must run `pip freeze > requirements.txt` and commit the requirments.txt.
 
 ## Using the CLI
+
+### Examples
 To test your credentials and setup with verbose output:
 `python3 ezyvet_cli -v -T`
 
@@ -85,3 +87,7 @@ Get the list of appointment status codes:
 
 To get the first page of active records for hospitalized patients (assuming "In Hospital" is code 9):
 `python3 ezyvet_cli.py -a '{"active":"true", "appointment_status_id":9}'`
+
+### Building more complex filters
+To build complex filters, see https://apisandbox.trial.ezyvet.com/api/docs form
+a listing of query parameters.
