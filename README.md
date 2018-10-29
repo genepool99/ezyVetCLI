@@ -31,7 +31,7 @@ https://apisandbox.trial.ezyvet.com/api/docs/.
 
 ## setup
 Copy `setting_Example.py` as `settings.py` and fill in your credential details.
-This file is not tracked by git.
+This file is should not be under source control and should be explicitly ignored.
 
 ## Development server setup
 ### Clone the production branch
