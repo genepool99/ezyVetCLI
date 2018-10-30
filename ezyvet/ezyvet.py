@@ -111,6 +111,11 @@ class ezyvet:
             self.logger.error("ERROR: init Failed", exc_info=True)
 
     def initConnection(self):
+        """
+            Initializes the connection to ezyVet using a new or stored access token.
+            If the first test fails, the token has probabily gone bad, so we refresh
+            and retry. Two failures stops the program.
+        """
         try:
             self.s = requests.session()
             for attempt in range(1):                             # number to make repeated attempts to init
@@ -143,7 +148,13 @@ class ezyvet:
 
     def testToken(self):
         """ Test the token stored in self.token
-            Returns a status code
+            Parameters
+            ----------
+
+            Returns
+            -------
+            int
+                Returns a status code
         """
         if self.token is None or 'access_token' not in self.token:
             self.logger.info("Token sent for testing was missing")
@@ -169,7 +180,17 @@ class ezyvet:
             self.logger.error("ERROR: Token did not work or something else went wrong.", exc_info=True)
 
     def fetchToken(self):
-        """ Get a fresh access token from the API"""
+        """
+        Get a fresh access token from the API. If sucessful write it to file
+        and store it in self.token.
+        Parameters
+        ----------
+
+        Returns
+        -------
+        int
+            Response code from the API
+        """
         try:
             payload = {
                 "partner_id": self.partner_id,
@@ -213,11 +234,19 @@ class ezyvet:
             get functions. This function is somewhat specific to how the
             ezyVet API functions, so it is kept in the core class. This functions
             strips out any of the meta data, so if you want that don't use this.
-            Arguments:
-                url = The endpoint ex. '/appointment'
-                filter = None or a dictonary for query parameters
-                maxpages = max number of records to return (page=10 records, default 1)
-            Returns JSON data or None
+            Parameters
+            ----------
+            url : string
+                URL of the API endpoint
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
         """
         try:
             self.logger.debug("Base url: " + str(url))
@@ -248,7 +277,7 @@ class ezyvet:
                     else:
                         url += str('?page=' + str(i))
 
-                r = requests.request("GET", self.url + str(url), headers=headers)
+                r = requests.request("GET", str(self.url) + str(url), headers=headers)
                 self.logger.debug("GetData Response: " + str(r.content))
                 if r.status_code != 200:
                     self.logger.error("ERROR: getData - Unable to retreive data, received " + r.content)
@@ -275,18 +304,54 @@ class ezyvet:
             self.logger.error("ERROR: getData - something went wrong.", exc_info=True)
 
     def getAptStatus(self):
-        """ Return an array of appointment statuses
-            or None for failure.
+        """
+        Get all of the appointment status codes.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        array or None
+            All of the redurned data in an array of dictionaries or None for failure.
         """
         try:
-            return self.getData("/appointmentstatus")
+            return self.getData("/appointmentstatus",maxpages=10)
+
+        except:
+            self.logger.error("ERROR: something else went wrong.", exc_info=True)
+
+    def getContactDetailTypes(self):
+        """
+        Get all of the contact detail types contact method, such as “Mobile” or “Email”.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        array or None
+            All of the redurned data in an array of dictionaries or None for failure.
+        """
+        try:
+            return self.getData("/contactdetailtype",maxpages=10)
 
         except:
             self.logger.error("ERROR: something else went wrong.", exc_info=True)
 
     def getAptStatusCode(self, lookup):
-        """ Given a name return the ID or None of the appointment status
-            Given a ID return the name or None
+        """ Lookup a status code or name
+
+            Parameters
+            ----------
+            lookup : int or string
+                What to lookup, could be an ID or name of a status
+
+            Returns
+            -------
+            int or string or None
+                Given an ID, it will return the status code name. Given a name,
+                it will return the ID.
         """
 
         try:
@@ -325,15 +390,18 @@ class ezyvet:
 
     def getAppointment(self, filter=None, maxpages=1):
         """ Get appointments given various filters.
-            Arguments:
-                filter: a dictonary of filters. Here is a example:
-                filters = {
-                    'id': 23,
-                    'active': True,
-                    'created_at': 1498690800,
-                    ...
-                }
-            Returns: an array of appointments
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
         """
         try:
             # Build the query string
@@ -341,20 +409,28 @@ class ezyvet:
             data = self.getData(url,filter=filter,maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
-
+        except TypeError:
+            self.logger.error("ERROR: getAppointment - something went wrong, getData returned None.", exc_info=True)
         except:
             self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
 
     def getCommunication(self, filter=None, maxpages=1):
-        """Get communications given various filters.
-            Arguments:
-                filter: a dictonary of filters.
-                maxpages: limits the total number of records returned (1 page = 10 records)
+        """Get communications given various filters. Note: This function
+            requires the read-communication scope, which is not currently available
+            to me. Sadly, I cannot test.
 
-            Returns: an array of communications
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
 
-            Note: This function requires the read-communication scope which is
-            not currently available to me, so I cannot test.
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
+
         """
         try:
             # Build the query string
@@ -362,17 +438,25 @@ class ezyvet:
             data = self.getData(url,filter=filter,maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
-
+        except TypeError:
+            self.logger.error("ERROR: getCommunication - something went wrong, getData returned None.", exc_info=True)
         except:
             self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
 
     def getConsult(self, filter=None, maxpages=1):
         """Get consult data given various filters.
-            Arguments:
-                filter: a dictonary of filters.
-                maxpages: limits the total number of records returned (1 page = 10 records)
 
-            Returns: an array of consult data
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
         """
         try:
             # Build the query string
@@ -381,5 +465,59 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
 
+        except TypeError:
+            self.logger.error("ERROR: getConsult - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+
+    def getContact(self, filter=None, maxpages=1):
+        """Get contact data given various filters.
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
+        """
+        try:
+            # Build the query string
+            url = "/contact"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+
+    def getContactDetail(self, filter=None, maxpages=1):
+        """Get contact detail data given various filters.
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
+        """
+        try:
+            # Build the query string
+            url = "/contactdetail"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
         except:
             self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)

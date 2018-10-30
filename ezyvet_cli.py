@@ -32,7 +32,7 @@ def main():
     ''' Main function to parce commandline options
     '''
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "vThsa:c:", ["help", "debug", "aptStatCode=", "max="])
+        opts, args = getopt.getopt(sys.argv[1:], "vThsa:c:p:d:", ["help", "debug", "aptStatCode=", "max=", "detailTypes"])
     except getopt.GetoptError as err:
         # print help information and die:
         print(err)
@@ -48,7 +48,7 @@ def main():
 
             # First find out if we have to set maxpages
             max = None
-            for 0, a in opts:
+            for o, a in opts:
                 if o == "--max":
                     max = int(round(int(a))//10)      # round max records to nearest 10 then devide by to to get max pages
                     logger.info("Limiting records to " + str(max))
@@ -76,7 +76,7 @@ def main():
                     else:
                         pprint(statuses)
 
-                elif o == "--aptStatCode":                      # lookup a ststus code by name or ID
+                elif o == "--aptStatCode":                      # lookup a status code by name or ID
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     code = lookupStatus(e,a)
                     if code is not None:
@@ -112,6 +112,37 @@ def main():
                     if data is not None:
                         pprint(data)
 
+                elif o == "-p":                                 # lookup contacts
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up contacts with filter: " + str(a))
+                    if max is None:
+                        max = 1
+                    if not a:
+                        a = "{}"
+
+                    data = e.getContact(filter = json.loads(a), maxpages=max)
+                    if data is not None:
+                        pprint(data)
+
+                elif o == "-d":                                 # lookup contact details
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up contacts detail with filter: " + str(a))
+                    if max is None:
+                        max = 1
+                    if not a:
+                        a = "{}"
+
+                    data = e.getContact(filter = json.loads(a), maxpages=max)
+                    if data is not None:
+                        pprint(data)
+
+                elif o == "--detailTypes":                     # lookup contacts detail types
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up contacts detail types")
+                    data = e.getContactDetailTypes()
+                    if data is not None:
+                        pprint(data)
+
                 else:
                     usage()
                     msg = "Unhandled option: " + pformat(o)
@@ -127,6 +158,7 @@ def usage():
     print("\t -s Get all appointment status codes")
     print("\t -a \"[filters as json or empty string]\" Lookup appointments ")
     print("\t -c \"[filters as json or empty string]\" Lookup consults ")
+    print("\t -p \"[filters as json or empty string]\" Lookup contacts ")
     print("\t --max [int] Maximum records returned. Will be rounded to the nearest multiple of 10, default 10.")
     print("\t --aptStatCode [id|name] Lookup appointment status code (by name or id)")
     print("\t -v: Verbose output")

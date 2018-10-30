@@ -63,15 +63,19 @@ There will be a verbose output, but you should see no "ERROR:" messages and
 ### When your done leave the virtual env with
 `deactivate`  
 
-## Coding standards
+## Coding standards and Development
 Python3 (3.5.2+)  
 
 ### Directory structure
 ezyvetcli
   -venv       <- the virtual environment
+  -ezyvet     <- the ezyvet library 
 
 ### Saving dependencies
 After adding or upgrading modules you must run `pip freeze > requirements.txt` and commit the requirments.txt.
+
+### Contributing
+Submit a pull request.
 
 ## Using the CLI
 
