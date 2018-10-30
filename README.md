@@ -49,7 +49,10 @@ Using APT:
 `python3 -m venv venv`
 
 ### Activate the virtualenv using a bash shell (does not work with fish or csh)
-`source source venv/bin/activate`
+`source venv/bin/activate`
+You should now have a prompt that looks something like:
+(venv) user@computer:~/home/user/ezyvetcli$
+
 
 ### Install the dependencies
 In the base ezyvetcli directory run
