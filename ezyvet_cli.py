@@ -161,6 +161,7 @@ def usage():
     print("\t -p \"[filters as json or empty string]\" Lookup contacts ")
     print("\t --max [int] Maximum records returned. Will be rounded to the nearest multiple of 10, default 10.")
     print("\t --aptStatCode [id|name] Lookup appointment status code (by name or id)")
+    print("\t --detailTypes get all of the contact detail types, such as \"Mobile\" or \"email\"")
     print("\t -v: Verbose output")
     print("\t --debug: Very verbose output")
     print("")
