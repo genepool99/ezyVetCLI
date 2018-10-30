@@ -32,18 +32,22 @@ def main():
     ''' Main function to parce commandline options
     '''
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "vThsa:c:p:d:",
-                                   [
-                                       "help",
-                                       "debug",
-                                       "aptStatCode=",
-                                       "max=",
-                                       "detailTypes",
-                                       "pretty",
-                                       "animal=",
-                                       "animalColor="
-                                    ]
-                                   )
+        opts, args = getopt.getopt(
+                        sys.argv[1:],
+                        "vTha:c:p:",
+                           [
+                               "help",
+                               "debug",
+                               "appointmentStatus",
+                               "apptStatusLookup=",
+                               "max=",
+                               "contactDetailTypes",
+                               "pretty",
+                               "address=",
+                               "animal=",
+                               "animalColor="
+                            ]
+                           )
     except getopt.GetoptError as err:
         # print help information and die:
         print(err)
@@ -64,7 +68,6 @@ def main():
             elif "--debug" in args:
                 logging.getLogger().setLevel(logging.DEBUG)
 
-            logger.info("Got OPTS: " + pformat(opts))
             # Setup max records returned
             max = 1                                             # Set to None or 1 (the library defaults to 1)
             for o, a in opts:                                   # First find out if we have to set maxpages
@@ -89,17 +92,26 @@ def main():
                 elif o == "-T":                                 # Test the connection to ezyvet
                     getData("-T")
 
-                elif o == "-s":                                 # get all appointment status codes (as JSON)
+                elif o == "--appointmentStatus":                 # get all appointment status codes
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Getting ezyvet statuses.")
-                    data =  e.getAptStatus()
+                    logger.info("Getting ezyvet status.")
+                    data =  e.getApptStatus()
                     printFormatted(data, pretty)
 
-                elif o == "--aptStatCode":                      # lookup a status code by name or ID
+                elif o == "--appointmentType":                  # lookup appointment types
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    code = lookupStatus(e,a)
-                    if code is not None:
+                    logger.info("Getting ezyvet appointment types.")
+                    data =  e.getApptTypes()
+                    printFormatted(data, pretty)
+
+
+                elif o == "--apptStatusLookup":                 # lookup a status code by name or ID
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    data = lookupApptStatus(e,a)
+                    if data is not None:
                         printFormatted(data, pretty)
+                    else:
+                        logger.info("Status " + str(a) + " not found.")
 
                 elif o == "-a":                                 # lookup appointments
                     e = ezyvet.ezyvet(SETTINGS, logger)
@@ -117,7 +129,7 @@ def main():
 
                 elif o == "-p":                                 # lookup contacts
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up contacts with filter: " + str(a)
+                    logger.info("Looking up contacts with filter: " + str(a))
                     data = e.getContact(filter = json.loads(a), maxpages=max)
                     if data is not None:
                         printFormatted(data, pretty)
@@ -129,10 +141,17 @@ def main():
                     if data is not None:
                         printFormatted(data, pretty)
 
-                elif o == "--detailTypes":                     # lookup contacts detail types
+                elif o == "--contactDetailTypes":                     # lookup contacts detail types
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contacts detail types")
                     data = e.getContactDetailTypes()
+                    if data is not None:
+                        printFormatted(data, pretty)
+
+                elif o == "--address":                           # lookup adddress
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up animal with filter " +str(a) )
+                    data = e.getAddress(filter = json.loads(a), maxpages=max)
                     if data is not None:
                         printFormatted(data, pretty)
 
@@ -172,32 +191,30 @@ def printFormatted(data, pretty):
 def usage():
     print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.2.0")
     print("USAGE: >python3 ezyvet_cli.py [OPTIONS]")
-    print("\t -h or --help:     Get Help (print this help text)")
-    print("\t -T                Test connection to API and exit")
-    print("\t -s                Get all appointment status codes")
-    print("\t -a  \"[filters | empty string]\"  Lookup appointments ")
-    print("\t -c \"[filters | empty string]\"   Lookup consults ")
-    print("\t -p \"[filters | empty string]\"   Lookup contacts ")
-    print("\t --animal \"[filters | empty string]\"   Lookup animals ")
-    print("\t --animalColor \"[filters | empty string]\"   Lookup animal colors")
-    print("\t --max [int]       Maximum records returned rounded to the nearest 10.")
-    print("\t --aptStatCode [id|name] Lookup appointment status code (by name or id)")
-    print("\t --detailTypes get the contact detail types, like \"Mobile\" or \"email\"")
-    print("\t -v:               Verbose output")
-    print("\t --debug           Very verbose output")
-    print("\t --pretty          Human readable output")
+    print("\t -h or --help:                                 Get Help (print this)")
+    print("\t -T                                            Test connection to API and exit")
+    print("\t --appointmentStatus                           Get all appointment status codes")
+    print("\t --apptStatusLookup [ID | name]                Lookup appointment status by code or name")
+    print("\t -a \"[filters | empty string]\"                 Lookup appointment(s)")
+    print("\t -c \"[filters | empty string]\"                 Lookup consult(s) ")
+    print("\t -p \"[filters | empty string]\"                 Lookup contact(s) ")
+    print("\t --address \"[filters | empty string]\"          Lookup address(s) ")
+    print("\t --animal \"[filters | empty string]\"           Lookup animal(s) ")
+    print("\t --animalColor \"[filters | empty string]\"      Lookup animal color(s)")
+    print("\t --max [int]                                   Maximum records returned rounded to the nearest 10.")
+    print("\t --detailTypes                                 Get the contact detail types, like \"Mobile\" or \"email\"")
+    print("\t -v:                                           Verbose output")
+    print("\t --debug                                       Very verbose output")
+    print("\t --pretty                                      Human readable output")
     print("")
 
-def lookupStatus(e, lookup):
+def lookupApptStatus(e, lookup):
     """ Given a ezyvet instance, lookup a status code or ID
         Returns: Code name, ID or None
     """
     logger.info("Looking up status: " + str(lookup))
-    code = e.getAptStatusCode(lookup)
-    if code is None:
-        logger.error("Could not find appointment status with ID = " + str(a))
-    else:
-        return(code)
+    code = e.lookupApptStatus(lookup)
+    return(code)
 
 
 def round( n ):

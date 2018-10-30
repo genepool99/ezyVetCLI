@@ -55,16 +55,6 @@ class ezyvet:
     fetchToken()
         Get a new token if we don't have one or if it is invalid
 
-    getAptStatus()
-        Get all available appointment statuses as an array
-
-    getAptStatusCode(name, id)
-        Given a name return the appointment status ID or None
-        Given an ID, return the status name or None
-
-    getAppointment(self, filters=None, maxpages=1)
-        Get an array of appointments optionally filtered. Pages contain up to 10 records.
-
     """
 
     def __init__(self, settings, logger, sandbox=False):
@@ -303,24 +293,6 @@ class ezyvet:
         except:
             self.logger.error("ERROR: getData - something went wrong.", exc_info=True)
 
-    def getAptStatus(self):
-        """
-        Get all of the appointment status codes.
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        array or None
-            All of the redurned data in an array of dictionaries or None for failure.
-        """
-        try:
-            return self.getData("/appointmentstatus",maxpages=10)
-
-        except:
-            self.logger.error("ERROR: something else went wrong.", exc_info=True)
-
     def getContactDetailTypes(self):
         """
         Get all of the contact detail types contact method, such as “Mobile” or “Email”.
@@ -339,7 +311,43 @@ class ezyvet:
         except:
             self.logger.error("ERROR: something else went wrong.", exc_info=True)
 
-    def getAptStatusCode(self, lookup):
+    def getApptStatus(self):
+        """
+        Get all of the appointment status codes.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        array or None
+            All of the redurned data in an array of dictionaries or None for failure.
+        """
+        try:
+            return self.getData("/appointmentstatus",maxpages=10)
+
+        except:
+            self.logger.error("ERROR: something else went wrong.", exc_info=True)
+
+    def getApptTypes(self):
+        """
+        Get all of the appointment status codes.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        array or None
+            All of the redurned data in an array of dictionaries or None for failure.
+        """
+        try:
+            return self.getData("/appointmenttype",maxpages=10)
+
+        except:
+            self.logger.error("ERROR: something else went wrong.", exc_info=True)
+
+    def lookupApptStatus(self, lookup):
         """ Lookup a status code or name
 
             Parameters
@@ -366,7 +374,7 @@ class ezyvet:
                 self.logger.info("Looking up status string: " + str(lookup))
                 name = lookup
 
-            codes = self.getAptStatus()         # get a fresh list of codes TODO: This coud be chached
+            codes = self.getApptStatus()         # get a fresh list of codes TODO: This coud be chached
             if codes is None:
                 self.logger.error("ERROR: Could not retreive list of appointment status types.")
                 return None
@@ -383,7 +391,10 @@ class ezyvet:
                     key = id
                     rvalue = s["appointmentstatus"]["name"]
                 if key == value:
-                    return rvalue
+                    if name is None:
+                        return {"name":rvalue}
+                    else:
+                        return {"id":rvalue}
 
         except:
             self.logger.error("ERROR: getAptStatusCode - something went wrong.", exc_info=True)
@@ -518,12 +529,12 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+            self.logger.error("ERROR: getContactDetail - something went wrong, getData returned None.", exc_info=True)
         except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+            self.logger.error("ERROR: getConsultDetail - something went wrong.", exc_info=True)
 
-    def getAnimal(self, filter=None, maxpages=1):
-        """Get animal(s) data given filters.
+    def getAddress(self, filter=None, maxpages=1):
+        """Get addresses(s) data given filters.
 
             Parameters
             ----------
@@ -539,14 +550,40 @@ class ezyvet:
         """
         try:
             # Build the query string
-            url = "/animal"
+            url = "/address"
             data = self.getData(url,filter=filter,maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+            self.logger.error("ERROR: getAddress - something went wrong, getData returned None.", exc_info=True)
         except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+            self.logger.error("ERROR: getAddress - something went wrong.", exc_info=True)
+
+        def getAnimal(self, filter=None, maxpages=1):
+            """Get animal(s) data given filters.
+
+                Parameters
+                ----------
+                filter : dictonary
+                    A dictionary of any filter arguments to be used in the querystring.
+                maxpages : int
+                    The maximum number of pages to return. Each page has up to 10 records.
+
+                Returns
+                -------
+                array or None
+                    All of the redurned data in an array of dictionaries.
+            """
+            try:
+                # Build the query string
+                url = "/animal"
+                data = self.getData(url,filter=filter,maxpages=maxpages)
+                self.logger.info("Returned " + str(len(data)) + " records.")
+                return data
+            except TypeError:
+                self.logger.error("ERROR: getAnimal - something went wrong, getData returned None.", exc_info=True)
+            except:
+                self.logger.error("ERROR: getAnimal - something went wrong.", exc_info=True)
 
     def getAnimalColor(self, filter=None, maxpages=1):
         """Get animal color(s) data given filters.
@@ -570,6 +607,6 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+            self.logger.error("ERROR: getAnimalColor - something went wrong, getData returned None.", exc_info=True)
         except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+            self.logger.error("ERROR: getAnimalColor - something went wrong.", exc_info=True)
