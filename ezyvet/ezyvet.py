@@ -389,7 +389,7 @@ class ezyvet:
             self.logger.error("ERROR: getAptStatusCode - something went wrong.", exc_info=True)
 
     def getAppointment(self, filter=None, maxpages=1):
-        """ Get appointments given various filters.
+        """ Get appointment(s) given filters.
 
             Parameters
             ----------
@@ -415,7 +415,7 @@ class ezyvet:
             self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
 
     def getCommunication(self, filter=None, maxpages=1):
-        """Get communications given various filters. Note: This function
+        """Get communication(s) given filters. Note: This function
             requires the read-communication scope, which is not currently available
             to me. Sadly, I cannot test.
 
@@ -444,7 +444,7 @@ class ezyvet:
             self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
 
     def getConsult(self, filter=None, maxpages=1):
-        """Get consult data given various filters.
+        """Get consult(s) data given filters.
 
             Parameters
             ----------
@@ -471,7 +471,7 @@ class ezyvet:
             self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
 
     def getContact(self, filter=None, maxpages=1):
-        """Get contact data given various filters.
+        """Get contact(s) data given filters.
 
             Parameters
             ----------
@@ -497,7 +497,7 @@ class ezyvet:
             self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
 
     def getContactDetail(self, filter=None, maxpages=1):
-        """Get contact detail data given various filters.
+        """Get contact detail(s) data given filters.
 
             Parameters
             ----------
@@ -514,6 +514,58 @@ class ezyvet:
         try:
             # Build the query string
             url = "/contactdetail"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+
+    def getAnimal(self, filter=None, maxpages=1):
+        """Get animal(s) data given filters.
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
+        """
+        try:
+            # Build the query string
+            url = "/animal"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+
+    def getAnimalColor(self, filter=None, maxpages=1):
+        """Get animal color(s) data given filters.
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of any filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                All of the redurned data in an array of dictionaries.
+        """
+        try:
+            # Build the query string
+            url = "/animalcolor"
             data = self.getData(url,filter=filter,maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data

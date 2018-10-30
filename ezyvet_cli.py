@@ -32,7 +32,18 @@ def main():
     ''' Main function to parce commandline options
     '''
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "vThsa:c:p:d:", ["help", "debug", "aptStatCode=", "max=", "detailTypes"])
+        opts, args = getopt.getopt(sys.argv[1:], "vThsa:c:p:d:",
+                                   [
+                                       "help",
+                                       "debug",
+                                       "aptStatCode=",
+                                       "max=",
+                                       "detailTypes",
+                                       "pretty",
+                                       "animal=",
+                                       "animalColor="
+                                    ]
+                                   )
     except getopt.GetoptError as err:
         # print help information and die:
         print(err)
@@ -40,130 +51,141 @@ def main():
         sys.exit(2)
 
     try:
-        if len(opts) == 0 or "-h" in opts:
+        args = sys.argv
+
+        if len(opts) == 0 or "-h" in args or "--help" in args:
             usage()
-            sys.exit(0)
+            sys.exit
 
         else:
+            # Setup debugging
+            if "-v" in args or "--verbose" in args:
+                logging.getLogger().setLevel(logging.INFO)
+            elif "--debug" in args:
+                logging.getLogger().setLevel(logging.DEBUG)
 
-            # First find out if we have to set maxpages
-            max = None
-            for o, a in opts:
+            logger.info("Got OPTS: " + pformat(opts))
+            # Setup max records returned
+            max = 1                                             # Set to None or 1 (the library defaults to 1)
+            for o, a in opts:                                   # First find out if we have to set maxpages
                 if o == "--max":
-                    max = int(round(int(a))//10)      # round max records to nearest 10 then devide by to to get max pages
-                    logger.info("Limiting records to " + str(max))
+                    max = int(round(int(opts["max"]))//10)      # round max records to nearest 10 then devide by to to get max pages
+
+            logger.info("Limiting records to " + str(max))
+
+            # Setup output formatting
+            pretty = False
+            if "--pretty" in args:                              # How do they want the output formatted
+                pretty = True
+                logger.info("Setting formatting to pretty")
 
             for o, a in opts:
-                if o == "-v":                                   # Turn on Verbose
-                    logging.getLogger().setLevel(logging.INFO)
+                if not a:
+                    a = "{}"                                    # if user provides an empty string as an argument, make it JSONable
 
-                elif o == "--debug":                            # Turn on debugging output
-                    logging.getLogger().setLevel(logging.DEBUG)
-
-                elif o in ("-h", "--help"):                     # Print CLI usage
-                    usage()
-                    sys.exit
+                if o in ("--debug", "--verbose", "-v", "--pretty", "--max"):   # skip things handled earlier
+                    pass
 
                 elif o == "-T":                                 # Test the connection to ezyvet
-                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    getData("-T")
 
                 elif o == "-s":                                 # get all appointment status codes (as JSON)
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Getting ezyvet statuses.")
-                    statuses =  e.getAptStatus()
-                    if statuses is None:
-                        print("Could not retrieve statuses.")
-                    else:
-                        pprint(statuses)
+                    data =  e.getAptStatus()
+                    printFormatted(data, pretty)
 
                 elif o == "--aptStatCode":                      # lookup a status code by name or ID
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     code = lookupStatus(e,a)
                     if code is not None:
-                        print(code)
+                        printFormatted(data, pretty)
 
                 elif o == "-a":                                 # lookup appointments
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up appointments with filter: " + str(a))
-                    if max is None:
-                        max = 1
-                    if not a:
-                        a = "{}"
-
-                    logger.info("Limiting records to " + str(max))
                     data = e.getAppointment(filter = json.loads(a), maxpages=max)
                     if data is not None:
-                        pprint(data)
-
-                elif o == "--max":                              # check if max is set alone
-                    logger.info("Max records option set to " + str(a))
-                    if len(opts) == 1:
-                        print("The option --max should be specified with a query like -a, but not alone.")
+                        printFormatted(data, pretty)
 
                 elif o == "-c":                                 # lookup consults
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up consults with filter: " + str(a))
-                    if max is None:
-                        max = 1
-                    if not a:
-                        a = "{}"
-
                     data = e.getConsult(filter = json.loads(a), maxpages=max)
                     if data is not None:
-                        pprint(data)
+                        printFormatted(data, pretty)
 
                 elif o == "-p":                                 # lookup contacts
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up contacts with filter: " + str(a))
-                    if max is None:
-                        max = 1
-                    if not a:
-                        a = "{}"
-
+                    logger.info("Looking up contacts with filter: " + str(a)
                     data = e.getContact(filter = json.loads(a), maxpages=max)
                     if data is not None:
-                        pprint(data)
+                        printFormatted(data, pretty)
 
                 elif o == "-d":                                 # lookup contact details
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contacts detail with filter: " + str(a))
-                    if max is None:
-                        max = 1
-                    if not a:
-                        a = "{}"
-
                     data = e.getContact(filter = json.loads(a), maxpages=max)
                     if data is not None:
-                        pprint(data)
+                        printFormatted(data, pretty)
 
                 elif o == "--detailTypes":                     # lookup contacts detail types
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contacts detail types")
                     data = e.getContactDetailTypes()
                     if data is not None:
-                        pprint(data)
+                        printFormatted(data, pretty)
+
+                elif o == "--animal":                           # lookup animals
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up animal with filter " +str(a) )
+                    data = e.getAnimal(filter = json.loads(a), maxpages=max)
+                    if data is not None:
+                        printFormatted(data, pretty)
+
+                elif o == "--animalColor":                       # lookup animal colors
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up animal colors with filter " +str(a) )
+                    data = e.getAnimal(filter = json.loads(a), maxpages=max)
+                    if data is not None:
+                        printFormatted(data, pretty)
 
                 else:
                     usage()
-                    msg = "Unhandled option: " + pformat(o)
-                    assert False, msg
+                    msg = "Unknown option: " + pformat(o)
+                    sys.exit
+
     except:
-        logger.error("Something went wrong, bye.", exc_info=True)
+        logger.error("Something went wrong. Please report issies to asolomon@dovelewis.org.", exc_info=True)
+
+def printFormatted(data, pretty):
+    """
+    Format output then print on screen.
+    """
+    if not data:
+        return None
+    elif pretty is True:
+        pprint(data)            # Make human readable
+    else:
+        print(json.dumps(data)) # output JSON
 
 def usage():
-    print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.1.1")
+    print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.2.0")
     print("USAGE: >python3 ezyvet_cli.py [OPTIONS]")
-    print("\t -h or --help: Get Help (print this help text)")
-    print("\t -T Test connection to API and exit")
-    print("\t -s Get all appointment status codes")
-    print("\t -a \"[filters as json or empty string]\" Lookup appointments ")
-    print("\t -c \"[filters as json or empty string]\" Lookup consults ")
-    print("\t -p \"[filters as json or empty string]\" Lookup contacts ")
-    print("\t --max [int] Maximum records returned. Will be rounded to the nearest multiple of 10, default 10.")
+    print("\t -h or --help:     Get Help (print this help text)")
+    print("\t -T                Test connection to API and exit")
+    print("\t -s                Get all appointment status codes")
+    print("\t -a  \"[filters | empty string]\"  Lookup appointments ")
+    print("\t -c \"[filters | empty string]\"   Lookup consults ")
+    print("\t -p \"[filters | empty string]\"   Lookup contacts ")
+    print("\t --animal \"[filters | empty string]\"   Lookup animals ")
+    print("\t --animalColor \"[filters | empty string]\"   Lookup animal colors")
+    print("\t --max [int]       Maximum records returned rounded to the nearest 10.")
     print("\t --aptStatCode [id|name] Lookup appointment status code (by name or id)")
-    print("\t --detailTypes get all of the contact detail types, such as \"Mobile\" or \"email\"")
-    print("\t -v: Verbose output")
-    print("\t --debug: Very verbose output")
+    print("\t --detailTypes get the contact detail types, like \"Mobile\" or \"email\"")
+    print("\t -v:               Verbose output")
+    print("\t --debug           Very verbose output")
+    print("\t --pretty          Human readable output")
     print("")
 
 def lookupStatus(e, lookup):

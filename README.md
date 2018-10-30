@@ -58,9 +58,9 @@ In the base ezyvetcli directory run
 `pip install -r requirements.txt`  
 
 ### Test your environment
-`python3 ezyvet_cli --debug -T`
-There will be a verbose output, but you should see no "ERROR:" messages and
-"INFO:__main__:Init Complete." at the end.
+`python3 ezyvet_cli.py --debug -T`
+There will be a verbose output, but you should see no "ERROR:" messages and ending with:  
+"INFO:__main__:Init Complete."
 
 ### When your done leave the virtual env with
 `deactivate`  
