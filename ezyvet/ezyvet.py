@@ -229,14 +229,14 @@ class ezyvet:
             url : string
                 URL of the API endpoint
             filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
+                A dictionary of filter arguments to be used in the querystring.
             maxpages : int
                 The maximum number of pages to return. Each page has up to 10 records.
 
             Returns
             -------
             array or None
-                All of the redurned data in an array of dictionaries.
+                The "items" data  in an array of dictionaries.
         """
         try:
             self.logger.debug("Base url: " + str(url))
@@ -293,27 +293,113 @@ class ezyvet:
         except:
             self.logger.error("ERROR: getData - something went wrong.", exc_info=True)
 
-    def getContactDetailTypes(self):
-        """
-        Get all of the contact detail types contact method, such as “Mobile” or “Email”.
+    def getAddress(self, filter=None, maxpages=1):
+        """ Get addresses(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#address
 
-        Parameters
-        ----------
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
 
-        Returns
-        -------
-        array or None
-            All of the redurned data in an array of dictionaries or None for failure.
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
         """
         try:
-            return self.getData("/contactdetailtype",maxpages=10)
-
+            url = "/address"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getAddress - something went wrong, getData returned None.", exc_info=True)
         except:
-            self.logger.error("ERROR: something else went wrong.", exc_info=True)
+            self.logger.error("ERROR: getAddress - something went wrong.", exc_info=True)
+
+    def getAnimal(self, filter=None, maxpages=1):
+        """ Get animal(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#animal
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/animal"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getAnimal - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getAnimal - something went wrong.", exc_info=True)
+
+    def getAnimalColor(self, filter=None, maxpages=1):
+        """ Get animal color(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#animalcolour
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/animalcolor"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getAnimalColor - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getAnimalColor - something went wrong.", exc_info=True)
+
+    def getAppointment(self, filter=None, maxpages=1):
+        """ Get appointment(s) given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#appointment
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/appointment"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getAppointment - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
 
     def getApptStatus(self):
-        """
-        Get all of the appointment status codes.
+        """ Get all of the appointment status codes.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#appointmentstatus
 
         Parameters
         ----------
@@ -321,17 +407,17 @@ class ezyvet:
         Returns
         -------
         array or None
-            All of the redurned data in an array of dictionaries or None for failure.
+            The "items" data  in an array of dictionaries or None for failure.
         """
         try:
-            return self.getData("/appointmentstatus",maxpages=10)
+            return self.getData("/appointmentstatus",maxpages=10)               # TODO: I hardcoded maxpages=10, I don't think it needs that many.
 
         except:
-            self.logger.error("ERROR: something else went wrong.", exc_info=True)
+            self.logger.error("ERROR: getApptStatus went wrong.", exc_info=True)
 
-    def getApptTypes(self):
-        """
-        Get all of the appointment status codes.
+    def getApptType(self):
+        """ Get all of the appointment type codes.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#appointmenttype
 
         Parameters
         ----------
@@ -339,16 +425,1244 @@ class ezyvet:
         Returns
         -------
         array or None
-            All of the redurned data in an array of dictionaries or None for failure.
+            The "items" data  in an array of dictionaries or None for failure.
         """
         try:
-            return self.getData("/appointmenttype",maxpages=10)
+            return self.getData("/appointmenttype",maxpages=10)                 # TODO: I hardcoded maxpages=10, I don't think it needs that many.
 
         except:
-            self.logger.error("ERROR: something else went wrong.", exc_info=True)
+            self.logger.error("ERROR: getApptType went wrong.", exc_info=True)
+
+    def getAssessment(self, filter=None, maxpages=1):
+        """ Get assessment(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#assessment
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/assessment"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+
+        except TypeError:
+            self.logger.error("ERROR: getAssessment - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getAssessment - something went wrong.", exc_info=True)
+
+    def getAttachment(self, filter=None, maxpages=1):
+        """ Get attachment(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#attachment
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/attachment"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+
+        except TypeError:
+            self.logger.error("ERROR: getAttachment - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getAttachment - something went wrong.", exc_info=True)
+
+    def getBreed(self, filter=None, maxpages=1):
+        """ Get breed(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#breed
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/breed"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+
+        except TypeError:
+            self.logger.error("ERROR: getBreed - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getBreed - something went wrong.", exc_info=True)
+
+    def getCommunication(self, filter=None, maxpages=1):
+        """ Get communication(s) given filters. Note: This function
+            requires the read-communication scope, which is not currently available
+            to me. Sadly, I cannot test.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#communication
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+
+        """
+        try:
+            url = "/communication"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getCommunication - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
+
+    def getConsult(self, filter=None, maxpages=1):
+        """ Get consult(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#consult
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/consult"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+
+        except TypeError:
+            self.logger.error("ERROR: getConsult - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+
+    def getContact(self, filter=None, maxpages=1):
+        """ Get contact(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#contact
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/contact"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+
+    def getContactDetail(self, filter=None, maxpages=1):
+        """ Get contact detail(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#contactdetail
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/contactdetail"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getContactDetail - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getContactDetail - something went wrong.", exc_info=True)
+
+    def getContactDetailType(self):
+        """ Get all of the contact detail types contact method, such as “Mobile” or “Email”.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#contactdetailtype
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            return self.getData("/contactdetailtype",maxpages=10)               # TODO: I hardcoded maxpages=10, I don't think it needs that many.
+
+        except:
+            self.logger.error("ERROR: getContactDetailType something went wrong.", exc_info=True)
+
+    def getCountry(self, filter=None, maxpages=1):
+        """ Get country(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#country
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/country"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getCountry - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getCountry - something went wrong.", exc_info=True)
+
+    def getDiagnostic(self, filter=None, maxpages=1):
+        """ Get diagnostic(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnostic
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/diagnostic"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getDiagnostic - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getDiagnostic - something went wrong.", exc_info=True)
+
+    def getDiagnosticResult(self, filter=None, maxpages=1):
+        """ Get diagnostic result(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnosticresult
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/diagnosticresult"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getDiagnosticResult - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getDiagnosticResult - something went wrong.", exc_info=True)
+
+    def getDiagnosticResultItem(self, filter=None, maxpages=1):
+        """ Get diagnostic result items(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnosticresultitem
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/diagnosticresultitem"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getDiagnosticResultItem - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getDiagnosticResultItem - something went wrong.", exc_info=True)
+
+    def getDiagnosticRequst(self, filter=None, maxpages=1):
+        """ Get diagnostic request(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnosticrequest
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/diagnosticrequest"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getDiagnosticRequst - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getDiagnosticRequst - something went wrong.", exc_info=True)
+
+    def getDiagnosticRequstItem(self, filter=None, maxpages=1):
+        """ Get diagnostic request item(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnosticrequestitem
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/diagnosticrequestitem"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getDiagnosticRequstItem - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getDiagnosticRequstItem - something went wrong.", exc_info=True)
+
+    def getFile(self, filter=None, maxpages=1):
+        """ Get files(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#fetch-a-file
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/file"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getFile - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getFile - something went wrong.", exc_info=True)
+
+    def getIntegratedDiagnostic(self, filter=None, maxpages=1):
+        """ Get integrated partner diagnostic(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#integrateddiagnostic
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/integrateddiagnostic"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getIntegratedDiagnostic - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getIntegratedDiagnostic - something went wrong.", exc_info=True)
+
+    def getHealthStatus(self, filter=None, maxpages=1):
+        """ Get health status metrics(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#healthstatus
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/healthstatus"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getHealthStatus - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getHealthStatus - something went wrong.", exc_info=True)
+
+    def getHistory(self, filter=None, maxpages=1):
+        """ Get history result(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#history
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/history"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getHistory - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getHistory - something went wrong.", exc_info=True)
+
+    def getInvoice(self, filter=None, maxpages=1):
+        """ Get invoice(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#invoice
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/invoice"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getInvoice - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getInvoice - something went wrong.", exc_info=True)
+
+    def getInvoiceLine(self, filter=None, maxpages=1):
+        """ Get invoice lines(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#invoiceline
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/invoiceline"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getInvoiceLine - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getInvoiceLine - something went wrong.", exc_info=True)
+
+    def getOperation(self, filter=None, maxpages=1):
+        """ Get operation(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#operation
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/operation"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getOperation - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getOperation - something went wrong.", exc_info=True)
+
+    def getPayment(self, filter=None, maxpages=1):
+        """ Get payment(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#payment
+
+            Parameters
+            ----------
+            filter : dictonary
+                A dictionary of filter arguments to be used in the querystring.
+            maxpages : int
+                The maximum number of pages to return. Each page has up to 10 records.
+
+            Returns
+            -------
+            array or None
+                The "items" data  in an array of dictionaries.
+        """
+        try:
+            url = "/payment"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPayment - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPayment - something went wrong.", exc_info=True)
+
+    def getPaymentMethod(self, filter=None, maxpages=1):
+        """ Get payment method(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#paymentmethod
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/paymentmethods"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPaymentMethod - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPaymentMethod - something went wrong.", exc_info=True)
+
+    def getPhysicalExam(self, filter=None, maxpages=1):
+        """ Get physical exam(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#physicalexam
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/physicalexam"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPhysicalExam - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPhysicalExam - something went wrong.", exc_info=True)
+
+    def getPlan(self, filter=None, maxpages=1):
+        """ Get paln(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#plan
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/physicalexam"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPlan - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPlan - something went wrong.", exc_info=True)
+
+    def getPrescription(self, filter=None, maxpages=1):
+        """ Get prescription(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#prescription
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/prescription"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPrescription - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPrescription - something went wrong.", exc_info=True)
+
+    def getPrescriptionItem(self, filter=None, maxpages=1):
+        """ Get prescription item(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#prescriptionitem
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/prescriptionitem"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPrescriptionItem - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPrescriptionItem something went wrong.", exc_info=True)
+
+    def getPresentingProblem(self, filter=None, maxpages=1):
+        """ Get presenting problem(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#presentingproblem
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/presentingproblem"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPresentingProblem - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPresentingProblem - something went wrong.", exc_info=True)
+
+    def getPresentingProblemLink(self, filter=None, maxpages=1):
+        """ Get presenting problem link(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#presentingproblemlink
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/presentingproblemlink"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPresentingProblemLink - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPresentingProblemLink - something went wrong.", exc_info=True)
+
+    def getProduct(self, filter=None, maxpages=1):
+        """ Get product(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#product
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/product"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getProduct - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getProduct - something went wrong.", exc_info=True)
+
+    def getProductGroup(self, filter=None, maxpages=1):
+        """ Get product groups(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#productgroup
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/productgroup"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getProductGroup - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getProductGroup - something went wrong.", exc_info=True)
+
+    def getPurchaseOrder(self, filter=None, maxpages=1):
+        """ Get purchase order(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#purchaseorder
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/purchaseorder"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPurchaseOrder - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPurchaseOrder - something went wrong.", exc_info=True)
+
+    def getPurchaseOrderItem(self, filter=None, maxpages=1):
+        """ Get purchase order items(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#purchaseorderitem
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/purchaseorderitem"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getPurchaseOrderItem - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getPurchaseOrderItem - something went wrong.", exc_info=True)
+
+    def getReceiveInvoice(self, filter=None, maxpages=1):
+        """ Get receive invoice(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#receiveinvoice
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/receiveinvoice"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getReceiveInvoice - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getReceiveInvoice something went wrong.", exc_info=True)
+
+    def getReceiveInvoiceItem(self, filter=None, maxpages=1):
+        """ Get receive invoice items(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#receiveinvoiceitem
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/receiveinvoiceitem"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getReceiveInvoiceItem - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getReceiveInvoiceItem - something went wrong.", exc_info=True)
+
+    def getResource(self, filter=None, maxpages=1):
+        """ Get resource(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#resource
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/resource"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getResource - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getResource - something went wrong.", exc_info=True)
+
+    def getSeparation(self, filter=None, maxpages=1):
+        """ Get separation(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#separation
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/separation"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getSeparation - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getSeparation - something went wrong.", exc_info=True)
+
+    def getSex(self, filter=None, maxpages=1):
+        """ Get sex(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#sex
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/sex"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getSex - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getSex -  something went wrong.", exc_info=True)
+
+    def getSpecies(self, filter=None, maxpages=1):
+        """ Get species(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#species
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/species"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getSpecies - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getSpecies -  something went wrong.", exc_info=True)
+
+    def getTag(self, filter=None, maxpages=1):
+        """ Get tag(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#tag
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/tag"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getTag - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getTag -  something went wrong.", exc_info=True)
+
+    def getTagCategory(self, filter=None, maxpages=1):
+        """ Get tag category(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#tagcategory
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/tagcategory"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getTagCategory - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getTagCategory -  something went wrong.", exc_info=True)
+
+    def getTherapeutic(self, filter=None, maxpages=1):
+        """ Get therapeutic(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#therapeutic
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/therapeutic"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getTherapeutic - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getTherapeutic -  something went wrong.", exc_info=True)
+
+    def getSystemSetting(self):
+        """ Get systemsetting data.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#systemsetting
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        array or None
+            The "items" data in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/systemsetting"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getSystemSetting - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getSystemSetting -  something went wrong.", exc_info=True)
+
+    def getUser(self, filter=None, maxpages=1):
+        """ Get user(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#user
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/user"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getUser - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getUser -  something went wrong.", exc_info=True)
+
+    def getVaccination(self, filter=None, maxpages=1):
+        """ Get user(s) data given filters.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#vaccination
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/vaccination"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getVaccination - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getVaccination -  something went wrong.", exc_info=True)
+
+    def getWebHookEvents(self):
+        """ Get wehooks(s) events list.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#webhookevents
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/webhookevents"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getWebHookEvents - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getWebHookEvents -  something went wrong.", exc_info=True)
+
+    def getWebHooks(self):
+        """ Get webhooks(s) list.
+            See: https://apisandbox.trial.ezyvet.com/api/docs/#webhooks
+
+        Parameters
+        ----------
+        filter : dictonary
+            A dictionary of filter arguments to be used in the querystring.
+        maxpages : int
+            The maximum number of pages to return. Each page has up to 10 records.
+
+        Returns
+        -------
+        array or None
+            The "items" data  in an array of dictionaries or None for failure.
+        """
+        try:
+            url = "/webhooks"
+            data = self.getData(url,filter=filter,maxpages=maxpages)
+            self.logger.info("Returned " + str(len(data)) + " records.")
+            return data
+        except TypeError:
+            self.logger.error("ERROR: getWebHooks - something went wrong, getData returned None.", exc_info=True)
+        except:
+            self.logger.error("ERROR: getWebHooks -  something went wrong.", exc_info=True)
+
+
+
+
+
+
+
+
+
+
 
     def lookupApptStatus(self, lookup):
-        """ Lookup a status code or name
+        """ Lookup a status code or names.
+            This is a helper function and has no reference in the API.
 
             Parameters
             ----------
@@ -397,216 +1711,4 @@ class ezyvet:
                         return {"id":rvalue}
 
         except:
-            self.logger.error("ERROR: getAptStatusCode - something went wrong.", exc_info=True)
-
-    def getAppointment(self, filter=None, maxpages=1):
-        """ Get appointment(s) given filters.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-        """
-        try:
-            # Build the query string
-            url = "/appointment"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-        except TypeError:
-            self.logger.error("ERROR: getAppointment - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
-
-    def getCommunication(self, filter=None, maxpages=1):
-        """Get communication(s) given filters. Note: This function
-            requires the read-communication scope, which is not currently available
-            to me. Sadly, I cannot test.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-
-        """
-        try:
-            # Build the query string
-            url = "/communication"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-        except TypeError:
-            self.logger.error("ERROR: getCommunication - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
-
-    def getConsult(self, filter=None, maxpages=1):
-        """Get consult(s) data given filters.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-        """
-        try:
-            # Build the query string
-            url = "/consult"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-
-        except TypeError:
-            self.logger.error("ERROR: getConsult - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
-
-    def getContact(self, filter=None, maxpages=1):
-        """Get contact(s) data given filters.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-        """
-        try:
-            # Build the query string
-            url = "/contact"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-        except TypeError:
-            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
-
-    def getContactDetail(self, filter=None, maxpages=1):
-        """Get contact detail(s) data given filters.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-        """
-        try:
-            # Build the query string
-            url = "/contactdetail"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-        except TypeError:
-            self.logger.error("ERROR: getContactDetail - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getConsultDetail - something went wrong.", exc_info=True)
-
-    def getAddress(self, filter=None, maxpages=1):
-        """Get addresses(s) data given filters.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-        """
-        try:
-            # Build the query string
-            url = "/address"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-        except TypeError:
-            self.logger.error("ERROR: getAddress - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getAddress - something went wrong.", exc_info=True)
-
-        def getAnimal(self, filter=None, maxpages=1):
-            """Get animal(s) data given filters.
-
-                Parameters
-                ----------
-                filter : dictonary
-                    A dictionary of any filter arguments to be used in the querystring.
-                maxpages : int
-                    The maximum number of pages to return. Each page has up to 10 records.
-
-                Returns
-                -------
-                array or None
-                    All of the redurned data in an array of dictionaries.
-            """
-            try:
-                # Build the query string
-                url = "/animal"
-                data = self.getData(url,filter=filter,maxpages=maxpages)
-                self.logger.info("Returned " + str(len(data)) + " records.")
-                return data
-            except TypeError:
-                self.logger.error("ERROR: getAnimal - something went wrong, getData returned None.", exc_info=True)
-            except:
-                self.logger.error("ERROR: getAnimal - something went wrong.", exc_info=True)
-
-    def getAnimalColor(self, filter=None, maxpages=1):
-        """Get animal color(s) data given filters.
-
-            Parameters
-            ----------
-            filter : dictonary
-                A dictionary of any filter arguments to be used in the querystring.
-            maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
-
-            Returns
-            -------
-            array or None
-                All of the redurned data in an array of dictionaries.
-        """
-        try:
-            # Build the query string
-            url = "/animalcolor"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
-            self.logger.info("Returned " + str(len(data)) + " records.")
-            return data
-        except TypeError:
-            self.logger.error("ERROR: getAnimalColor - something went wrong, getData returned None.", exc_info=True)
-        except:
-            self.logger.error("ERROR: getAnimalColor - something went wrong.", exc_info=True)
+            self.logger.error("ERROR: lookupApptStatus - something went wrong.", exc_info=True)

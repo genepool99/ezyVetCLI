@@ -102,7 +102,7 @@ def main():
                 elif o == "--appointmentType":                  # lookup appointment types
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Getting ezyvet appointment types.")
-                    data =  e.getApptTypes()
+                    data =  e.getApptType()
                     printFormatted(data, pretty)
 
 
@@ -145,7 +145,7 @@ def main():
                 elif o == "--contactDetailTypes":                     # lookup contacts detail types
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contacts detail types")
-                    data = e.getContactDetailTypes()
+                    data = e.getContactDetailType()
                     if data is not None:
                         printFormatted(data, pretty)
 
