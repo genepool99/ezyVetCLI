@@ -90,7 +90,8 @@ def main():
                     pass
 
                 elif o == "-T":                                 # Test the connection to ezyvet
-                    getData("-T")
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Testing connection to ezyVet API.")
 
                 elif o == "--appointmentStatus":                 # get all appointment status codes
                     e = ezyvet.ezyvet(SETTINGS, logger)
