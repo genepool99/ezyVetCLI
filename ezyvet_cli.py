@@ -316,7 +316,7 @@ def main():
                 elif o == "--paymentMethod":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up payment menthods with filter: " + str(a))
-                    data = e.getpaymentMethod(filter = json.loads(a), maxpages=max)
+                    data = e.getPaymentMethod(filter = json.loads(a), maxpages=max)
                     printFormatted(data, pretty)
 
                 elif o == "--physicalExam":
