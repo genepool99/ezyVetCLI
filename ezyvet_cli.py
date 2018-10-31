@@ -120,7 +120,7 @@ def main():
             max = 1                                             # Set to None or 1 (the library defaults to 1)
             for o, a in opts:                                   # First find out if we have to set maxpages
                 if o == "--max":
-                    max = int(round(int(opts["max"]))//10)      # round max records to nearest 10 then devide by to to get max pages
+                    max = int(round(int(a))//10)      # round max records to nearest 10 then devide by to to get max pages
 
             logger.info("Limiting records to " + str(max))
 
@@ -140,8 +140,11 @@ def main():
                 elif o == "--address":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up animal with filter " +str(a) )
-                    data = e.getAddress(filter = json.loads(a), maxpages=max)
-                    printFormatted(data, pretty)
+                    try:
+                        data = e.getAddress(filter = json.loads(a), maxpages=max)
+                        printFormatted(data, pretty)
+                    except json.decoder.JSONDecodeError:
+                        logger.error("The filter string supplied is invalid JSON, check the filter and try again.")
 
                 elif o == "--animal":
                     e = ezyvet.ezyvet(SETTINGS, logger)
@@ -217,13 +220,13 @@ def main():
                 elif o == "--contactDetail":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contacts details with filter: " + str(a))
-                    data = e.getContactDetails(filter = json.loads(a), maxpages=max)
+                    data = e.getContactDetail(filter = json.loads(a), maxpages=max)
                     printFormatted(data, pretty)
 
                 elif o == "--contactDetailType":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contact detail types")
-                    data = e.getContactDetailsType()
+                    data = e.getContactDetailType()
                     printFormatted(data, pretty)
 
                 elif o == "--country":
@@ -462,7 +465,7 @@ def main():
 
                 elif o == "-T":                                 # Test the connection to ezyvet
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Testing connection to ezyVet API.")
+                    logger.info("Testing connection to ezyVet API complete.")
 
                 else:
                     usage()
