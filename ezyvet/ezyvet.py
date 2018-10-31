@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import requests
-from bs4 import BeautifulSoup
 import json
 from pprint import pprint,pformat
 import re
@@ -27,7 +26,6 @@ import sys
 import os
 from urllib.parse import urlencode
 from ezyvet.ezhelpers import writeJson, readJson
-
 
 class ezyvet:
     """
@@ -54,6 +52,8 @@ class ezyvet:
 
     fetchToken()
         Get a new token if we don't have one or if it is invalid
+
+    TOTO: Finish Methods Doc
 
     """
 
@@ -108,7 +108,7 @@ class ezyvet:
         """
         try:
             self.s = requests.session()
-            for attempt in range(1):                             # number to make repeated attempts to init
+            for attempt in range(1):                                            # number to make repeated attempts to init
                 try:
                     self.logger.info("Reading stored access token.")
                     self.token = readJson(self.home_dir + "token.json")         # lets see if we have a stored token
@@ -117,7 +117,7 @@ class ezyvet:
                         self.token = self.fetchToken()
 
                     self.logger.info("Testing token.")
-                    if self.testToken() is not 200:                # Lets test the Token
+                    if self.testToken() is not 200:                             # Lets test the Token
                         self.logger.info("Test Failed, refreshing token.")
                         self.token = self.fetchToken()
                         self.logger.info("Re-testing token.")
@@ -167,7 +167,7 @@ class ezyvet:
         except NameError:
             self.logger.error("ERROR: Token did not work.", exc_info=True)
         except:
-            self.logger.error("ERROR: Token did not work or something else went wrong.", exc_info=True)
+            self.logger.error("ERROR: Token did not work something went wrong.", exc_info=True)
 
     def fetchToken(self):
         """
@@ -744,7 +744,7 @@ class ezyvet:
         except:
             self.logger.error("ERROR: getDiagnosticResultItem - something went wrong.", exc_info=True)
 
-    def getDiagnosticRequst(self, filter=None, maxpages=1):
+    def getDiagnosticRequest(self, filter=None, maxpages=1):
         """ Get diagnostic request(s) data given filters.
             See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnosticrequest
 
@@ -1073,7 +1073,7 @@ class ezyvet:
             The "items" data  in an array of dictionaries or None for failure.
         """
         try:
-            url = "/physicalexam"
+            url = "/plan"
             data = self.getData(url,filter=filter,maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
@@ -1649,16 +1649,6 @@ class ezyvet:
             self.logger.error("ERROR: getWebHooks - something went wrong, getData returned None.", exc_info=True)
         except:
             self.logger.error("ERROR: getWebHooks -  something went wrong.", exc_info=True)
-
-
-
-
-
-
-
-
-
-
 
     def lookupApptStatus(self, lookup):
         """ Lookup a status code or names.

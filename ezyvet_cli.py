@@ -34,18 +34,66 @@ def main():
     try:
         opts, args = getopt.getopt(
                         sys.argv[1:],
-                        "vTha:c:p:",
+                        "vTh",
                            [
-                               "help",
-                               "debug",
-                               "appointmentStatus",
-                               "apptStatusLookup=",
-                               "max=",
-                               "contactDetailTypes",
-                               "pretty",
-                               "address=",
-                               "animal=",
-                               "animalColor="
+                                "address=",
+                                "animal=",
+                                "animalColor=",
+                                "appointment="
+                                "appointmentStatus",
+                                "appointmentStatusLookup=",
+                                "appointmentType",
+                                "assessment=",
+                                "attachment=",
+                                "breeds=",
+                                "communication=",
+                                "consult=",
+                                "contact=",
+                                "contactDetail=",
+                                "contactDetailType",
+                                "country=",
+                                "diagnostic=",
+                                "diagnosticResult=",
+                                "diagnosticResultItem=",
+                                "diagnosticRequest=",
+                                "diagnosticRequestItems=",
+                                "file=",
+                                "integratedDiagnostic=",
+                                "healthStatus=",
+                                "history=",
+                                "invoice=",
+                                "invoiceLine=",
+                                "operation=",
+                                "payment=",
+                                "paymentMethod=",
+                                "physicalExam=",
+                                "plan=",
+                                "prescription=",
+                                "prescriptionItems=",
+                                "presentingProblem=",
+                                "presentingProblemLink=",
+                                "product=",
+                                "productGroup=",
+                                "purchaseOrder=",
+                                "purchaseOrderItem=",
+                                "receiveInvoice=",
+                                "receiveInvoiceItem=",
+                                "resource=",
+                                "separation=",
+                                "sex=",
+                                "species=",
+                                "tags=",
+                                "tagCategory=",
+                                "therapeutic=",
+                                "systemSetting",
+                                "user=",
+                                "vaccination=",
+                                "webHookEvents=",
+                                "webHooks=",
+                                "help",
+                                "debug",
+                                "max=",
+                                "pretty",
                             ]
                            )
     except getopt.GetoptError as err:
@@ -89,86 +137,332 @@ def main():
                 if o in ("--debug", "--verbose", "-v", "--pretty", "--max"):   # skip things handled earlier
                     pass
 
-                elif o == "-T":                                 # Test the connection to ezyvet
+                elif o == "--address":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Testing connection to ezyVet API.")
+                    logger.info("Looking up animal with filter " +str(a) )
+                    data = e.getAddress(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
 
-                elif o == "--appointmentStatus":                 # get all appointment status codes
+                elif o == "--animal":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up animal with filter " +str(a) )
+                    data = e.getAnimal(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--animalColor":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up animal color with filter " +str(a) )
+                    data = e.getAnimalColor(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--appointment":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up appointments with filter: " + str(a))
+                    data = e.getAppointment(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--appointmentStatus":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Getting ezyvet status.")
                     data =  e.getApptStatus()
                     printFormatted(data, pretty)
 
-                elif o == "--appointmentType":                  # lookup appointment types
+                elif o == "--apptStatusLookup":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Getting ezyvet appointment types.")
+                    data = lookupApptStatus(e,a)
+                    printFormatted(data, pretty)
+
+                elif o == "--appointmentType":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Getting ezyvet appointment status.")
                     data =  e.getApptType()
                     printFormatted(data, pretty)
 
-
-                elif o == "--apptStatusLookup":                 # lookup a status code by name or ID
+                elif o == "--assessment":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    data = lookupApptStatus(e,a)
-                    if data is not None:
-                        printFormatted(data, pretty)
-                    else:
-                        logger.info("Status " + str(a) + " not found.")
+                    logger.info("Looking up assessment with filter: " + str(a))
+                    data = e.getAssessment(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
 
-                elif o == "-a":                                 # lookup appointments
+                elif o == "--attachment":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up appointments with filter: " + str(a))
-                    data = e.getAppointment(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    logger.info("Looking up attachments with filter: " + str(a))
+                    data = e.getAttachment(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
 
-                elif o == "-c":                                 # lookup consults
+                elif o == "--breed":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up breeds with filter: " + str(a))
+                    data = e.getBreed(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--communaction":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up communications with filter: " + str(a))
+                    data = e.getCommunication(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--consult":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up consults with filter: " + str(a))
                     data = e.getConsult(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    printFormatted(data, pretty)
 
-                elif o == "-p":                                 # lookup contacts
+                elif o == "--contact":
                     e = ezyvet.ezyvet(SETTINGS, logger)
                     logger.info("Looking up contacts with filter: " + str(a))
                     data = e.getContact(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    printFormatted(data, pretty)
 
-                elif o == "-d":                                 # lookup contact details
+                elif o == "--contactDetail":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up contacts detail with filter: " + str(a))
-                    data = e.getContact(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    logger.info("Looking up contacts details with filter: " + str(a))
+                    data = e.getContactDetails(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
 
-                elif o == "--contactDetailTypes":                     # lookup contacts detail types
+                elif o == "--contactDetailType":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up contacts detail types")
-                    data = e.getContactDetailType()
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    logger.info("Looking up contact detail types")
+                    data = e.getContactDetailsType()
+                    printFormatted(data, pretty)
 
-                elif o == "--address":                           # lookup adddress
+                elif o == "--country":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up animal with filter " +str(a) )
-                    data = e.getAddress(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    logger.info("Looking up countries with filter: " + str(a))
+                    data = e.getCountry(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
 
-                elif o == "--animal":                           # lookup animals
+                elif o == "--diagnostic":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up animal with filter " +str(a) )
-                    data = e.getAnimal(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    logger.info("Looking up diagnostics with filter: " + str(a))
+                    data = e.getDiagnostic(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
 
-                elif o == "--animalColor":                       # lookup animal colors
+                elif o == "--diagnosticResult":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up animal colors with filter " +str(a) )
-                    data = e.getAnimal(filter = json.loads(a), maxpages=max)
-                    if data is not None:
-                        printFormatted(data, pretty)
+                    logger.info("Looking up diagnostic results with filter: " + str(a))
+                    data = e.getDiagnosticResult(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--diagnosticResultItem":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up diagnostic results item with filter: " + str(a))
+                    data = e.getDiagnosticResultItem(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--diagnosticRequest":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up diagnostic requests with filter: " + str(a))
+                    data = e.getDiagnosticRequest(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--diagnosticRequestItem":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up diagnostic request items with filter: " + str(a))
+                    data = e.getDiagnosticRequestItems(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--getFile":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up files with filter: " + str(a))
+                    data = e.getFile(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--getIntegratedDiagnostic":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up integrated diagnostics with filter: " + str(a))
+                    data = e.getintegratedDiagnostic(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--healthStatus":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up health status with filter: " + str(a))
+                    data = e.getHealthStatus(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--history":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up histories with filter: " + str(a))
+                    data = e.getHistory(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--invoice":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up invoices with filter: " + str(a))
+                    data = e.getInvoice(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--invoiceLine":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up invoice lines with filter: " + str(a))
+                    data = e.getInvoiceLine(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--operation":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up operations with filter: " + str(a))
+                    data = e.getOperation(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--payment":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up payments with filter: " + str(a))
+                    data = e.getPayment(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--paymentMethod":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up payment menthods with filter: " + str(a))
+                    data = e.getpaymentMethod(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--physicalExam":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up physical exams with filter: " + str(a))
+                    data = e.getphysicalExam(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--plan":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up plans with filter: " + str(a))
+                    data = e.getPlan(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--prescription":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up prescriptions with filter: " + str(a))
+                    data = e.getPrescription(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--prescriptionItems":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up prescriptions items with filter: " + str(a))
+                    data = e.getPrescriptionItems(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--presentingProblem":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up presenting problems with filter: " + str(a))
+                    data = e.getPresentingProblem(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--presentingProblemLink":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up presenting problem links with filter: " + str(a))
+                    data = e.getPresentingProblemLink(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--product":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up products with filter: " + str(a))
+                    data = e.getProduct(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--productGroup":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up product groups with filter: " + str(a))
+                    data = e.getProductGroup(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--purchaseOrder":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up Purchase Orders with filter: " + str(a))
+                    data = e.getPurchaseOrder(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--purchaseOrderItem":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up Purchase Order Items with filter: " + str(a))
+                    data = e.getPurchaseOrderItem(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--receiveInvoice":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up Receive Invoices with filter: " + str(a))
+                    data = e.getReceiveInvoice(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--receiveInvoiceItem":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up Receive Invoice Items with filter: " + str(a))
+                    data = e.getReceiveInvoiceItem(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--resource":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up resources with filter: " + str(a))
+                    data = e.getResource(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--separation":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up separations with filter: " + str(a))
+                    data = e.getSeparation(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--sex":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up sexes with filter: " + str(a))
+                    data = e.getSex(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--species":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up species with filter: " + str(a))
+                    data = e.getSpecies(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--tag":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up tags with filter: " + str(a))
+                    data = e.getTag(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--tagCategory":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up tag categories with filter: " + str(a))
+                    data = e.getTagCategory(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--therapeutic":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up therapeutics with filter: " + str(a))
+                    data = e.getTherapeutic(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--systemSetting":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up system settings")
+                    data = e.getSystemSetting()
+                    printFormatted(data, pretty)
+
+                elif o == "--user":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up users with filter: " + str(a))
+                    data = e.getUser(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--vaccination":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up vaccinationd with filter: " + str(a))
+                    data = e.getVaccination(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--webHookEvents":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up web hook events with filter: " + str(a))
+                    data = e.getWebHookEvents(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "--webHooks":
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Looking up web hooks with filter: " + str(a))
+                    data = e.getWebHooks(filter = json.loads(a), maxpages=max)
+                    printFormatted(data, pretty)
+
+                elif o == "-T":                                 # Test the connection to ezyvet
+                    e = ezyvet.ezyvet(SETTINGS, logger)
+                    logger.info("Testing connection to ezyVet API.")
 
                 else:
                     usage()
