@@ -570,7 +570,7 @@ def usage():
         --webHooks                              Fetch webhooks
 
     Filters:
-        Flters use standard JSON formatting.:
+        Flters use standard JSON formatting:
         '{"id":22}''
 
         Example:
