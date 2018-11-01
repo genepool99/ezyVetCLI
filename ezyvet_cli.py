@@ -34,7 +34,7 @@ def main():
     try:
         opts, args = getopt.getopt(
                         sys.argv[1:],
-                        "vTh",
+                        "vThdpm:",
                            [
                                 "address=",
                                 "animal=",
@@ -105,28 +105,28 @@ def main():
     try:
         args = sys.argv
 
-        if len(opts) == 0 or "-h" in args or "--help" in args:
+        if len(opts) == 0 or any(i for i in ["-h", "--help"] if i in args):
             usage()
             sys.exit
 
         else:
             # Setup debugging
-            if "-v" in args or "--verbose" in args:
+            if any (i for i in ["-v", "--verbose"] if i in args):
                 logging.getLogger().setLevel(logging.INFO)
-            elif "--debug" in args:
+            elif any (i for i in ["-d", "--debug"] if i in args):
                 logging.getLogger().setLevel(logging.DEBUG)
 
             # Setup max records returned
             max = 1                                             # Set to None or 1 (the library defaults to 1)
             for o, a in opts:                                   # First find out if we have to set maxpages
-                if o == "--max":
-                    max = int(round(int(a))//10)      # round max records to nearest 10 then devide by to to get max pages
+                if o in ["--max", "-m"]:
+                    max = int(round(int(a))//10)                # round max records to nearest 10 then devide by to to get max pages
 
             logger.info("Limiting records to " + str(max))
 
             # Setup output formatting
             pretty = False
-            if "--pretty" in args:                              # How do they want the output formatted
+            if any (i for i in ["--pretty", "-p"] if i in args):                              # How do they want the output formatted
                 pretty = True
                 logger.info("Setting formatting to pretty")
 
@@ -134,7 +134,15 @@ def main():
                 if not a:
                     a = "{}"                                    # if user provides an empty string as an argument, make it JSONable
 
-                if o in ("--debug", "--verbose", "-v", "--pretty", "--max"):   # skip things handled earlier
+                # skip options allready handled
+                if o in (   "--debug",
+                            "--verbose",
+                            "-v",
+                            "--pretty",
+                            "--max",
+                            "-d",
+                            "-p",
+                            "-m"):
                     pass
 
                 elif o == "--address":
@@ -468,8 +476,9 @@ def main():
                     logger.info("Testing connection to ezyVet API complete.")
 
                 else:
-                    usage()
                     msg = "Unknown option: " + pformat(o)
+                    logger.error("ERROR: " + str(msg))
+                    usage()
                     sys.exit
 
     except:
@@ -487,24 +496,82 @@ def printFormatted(data, pretty):
         print(json.dumps(data)) # output JSON
 
 def usage():
-    print("\nCommandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.2.0")
-    print("USAGE: >python3 ezyvet_cli.py [OPTIONS]")
-    print("\t -h or --help:                                 Get Help (print this)")
-    print("\t -T                                            Test connection to API and exit")
-    print("\t --appointmentStatus                           Get all appointment status codes")
-    print("\t --apptStatusLookup [ID | name]                Lookup appointment status by code or name")
-    print("\t -a \"[filters | empty string]\"                 Lookup appointment(s)")
-    print("\t -c \"[filters | empty string]\"                 Lookup consult(s) ")
-    print("\t -p \"[filters | empty string]\"                 Lookup contact(s) ")
-    print("\t --address \"[filters | empty string]\"          Lookup address(s) ")
-    print("\t --animal \"[filters | empty string]\"           Lookup animal(s) ")
-    print("\t --animalColor \"[filters | empty string]\"      Lookup animal color(s)")
-    print("\t --max [int]                                   Maximum records returned rounded to the nearest 10.")
-    print("\t --detailTypes                                 Get the contact detail types, like \"Mobile\" or \"email\"")
-    print("\t -v:                                           Verbose output")
-    print("\t --debug                                       Very verbose output")
-    print("\t --pretty                                      Human readable output")
-    print("")
+    s = """
+    Commandline ezyVet by Avi Solomon (asolomon@dovelewis.org) v0.2.0
+    USAGE:
+        python3 ezyvet_cli.py [-v|-d][-p][-m <number>] [OPTION] <filter>
+
+    modifiers:
+        -v                                      Verbose output
+        -d, --debug                             Very verbose output
+        -p, --pretty                            Human readable output
+        -m, --max <number>                      Set the max records returned
+                                                (rounded to nearest 10)
+                                                DEFAULT 10
+
+    options:
+        -h, --help                              Get Help (print this)
+        --address <filter>                      Fetch Address(es)
+        --animal <filter>                       Fetch Animal(s)
+        --animalcolor <filter>                  Fetch Animal Color(s)
+        --appointment <filter>                  Fetch Appointment(s)
+        --appointmentStatus <filter>            Fetch appointment status(es)
+        --appointmentStatusLookup <id or name>  Lookup appointment status by ID or name
+        --appointmentType <filter>              Fetch appointment type(s)
+        --assessment <filter>                   Fetch assessment(s)
+        --attachment <filter>                   Fetch attachment(s)
+        --breeds <filter>                       Fetch breed(s)
+        --communication <filter>                Fetch communaction(s)
+        --consult <filter>                      Fetch consult(s)
+        --contact <filter>                      Fetch contact(s)
+        --contactDetail <filter>                Fetch contact detial(s)
+        --contactDetailType <filter>            Fetch contact detail type(s)
+        --country <filter>                      Fetch country
+        --diagnostic <filter>                   Fetch diagnostic(s)
+        --diagnosticResult <filter>             Fetch diagnostic result(s)
+        --diagnosticResultItem <filter>         Fetch diagnostic result item(s)
+        --diagnosticRequest <filter>            Fetch diagnostic request(s)
+        --diagnosticRequestItems <filter>       Fetch diagnostic request item(s)
+        --file <filter>                         Fetch file(s)
+        --integratedDiagnostic <filter>         Fetch integrated diagnostic(s)
+        --healthStatus <filter>                 Fetch health status
+        --history <filter>                      Fetch histories
+        --invoice <filter>                      Fetch invoice(s)
+        --invoiceLine <filter>                  Fetch invoice items(s)
+        --operation <filter>                    Fetch operation(s)
+        --payment <filter>                      Fetch payment(s)
+        --paymentMethod <filter>                Fetch payment method(s)
+        --physicalExam <filter>                 Fetch physical exams(s)
+        --plan <filter>                         Fetch plan(s)
+        --prescription <filter>                 Fetch perscription(s)
+        --prescriptionItems <filter>            Fetch prescription item(s)
+        --presentingProblem <filter>            Fetch presenting problem(s)
+        --presentingProblemLink <filter>        Fetch presenting problem link(s) to consults
+        --product <filter>                      Fetch product(s)
+        --productGroup <filter>                 Fetch product group(s)
+        --purchaseOrder <filter>                Fetch purchase order(s)
+        --purchaseOrderItem <filter>            Fetch purchase order item(s)
+        --receiveInvoice <filter>               Fetch receive invoice(s)
+        --receiveInvoiceItem <filter>           Fetch receive invoice item(s)
+        --resource <filter>                     Fetch resource(s)
+        --separation <filter>                   Fetch separation(s)
+        --sex <filter>                          Fetch sex(es)
+        --species <filter>                      Fetch species
+        --tags <filter>                         Fetch tag(s)
+        --tagCategory <filter>                  Fetch tag category
+        --therapeutic <filter>                  Fetch therapeutic(s)
+        --systemSetting                         Fetch system settings
+        --user <filter>                         Fetch user(s)
+        --vaccination <filter>                  Fetch vaccination(s)
+        --webHookEvents <filter>                Fetch webhook event(s)
+        --webHooks                              Fetch webhooks
+
+    filters:
+        Flters use standard JSON formatting. Examples:
+        '{}''
+    """
+
+    print(s)
 
 def lookupApptStatus(e, lookup):
     """ Given a ezyvet instance, lookup a status code or ID

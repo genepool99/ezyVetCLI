@@ -252,10 +252,10 @@ class ezyvet:
                 'Cache-Control': "no-cache"
             }
 
-            ''' The while below is a little weird. Because we don't know how many pages
-                of data we will get until we make our first call to the endpoint.
-                To deal with it, we have a loop that determins at the end if it
-                should break.
+            ''' The while loop below is a little weird. This is because we don't
+                know how many pages of data we will get until we make our first
+                call to the endpoint. To deal with it, we have a loop that
+                determins at the end if it should break.
             '''
             i = 1               # current page counter
             pages = 0           # total pages
@@ -315,7 +315,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getAddress - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getAddress - something went wrong.", exc_info=True)
 
@@ -341,7 +341,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getAnimal - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getAnimal - something went wrong.", exc_info=True)
 
@@ -367,7 +367,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getAnimalColor - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getAnimalColor - something went wrong.", exc_info=True)
 
@@ -393,7 +393,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getAppointment - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
 
@@ -456,7 +456,7 @@ class ezyvet:
             return data
 
         except TypeError:
-            self.logger.error("ERROR: getAssessment - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getAssessment - something went wrong.", exc_info=True)
 
@@ -483,7 +483,7 @@ class ezyvet:
             return data
 
         except TypeError:
-            self.logger.error("ERROR: getAttachment - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getAttachment - something went wrong.", exc_info=True)
 
@@ -510,7 +510,7 @@ class ezyvet:
             return data
 
         except TypeError:
-            self.logger.error("ERROR: getBreed - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getBreed - something went wrong.", exc_info=True)
 
@@ -539,7 +539,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getCommunication - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
 
@@ -566,7 +566,7 @@ class ezyvet:
             return data
 
         except TypeError:
-            self.logger.error("ERROR: getConsult - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
 
@@ -592,7 +592,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getContact - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
 
@@ -618,7 +618,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getContactDetail - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getContactDetail - something went wrong.", exc_info=True)
 
@@ -662,13 +662,14 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getCountry - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getCountry - something went wrong.", exc_info=True)
 
     def getDiagnostic(self, filter=None, maxpages=1):
         """ Get diagnostic(s) data given filters.
             See: https://apisandbox.trial.ezyvet.com/api/docs/#diagnostic
+            Note: This endpoint presently returns a 404, support contacted 10/31/18.
 
             Parameters
             ----------
@@ -688,7 +689,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getDiagnostic - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getDiagnostic - something went wrong.", exc_info=True)
 
@@ -714,7 +715,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getDiagnosticResult - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getDiagnosticResult - something went wrong.", exc_info=True)
 
@@ -740,7 +741,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getDiagnosticResultItem - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getDiagnosticResultItem - something went wrong.", exc_info=True)
 
@@ -766,7 +767,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getDiagnosticRequst - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getDiagnosticRequst - something went wrong.", exc_info=True)
 
@@ -792,7 +793,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getDiagnosticRequstItem - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getDiagnosticRequstItem - something went wrong.", exc_info=True)
 
@@ -818,7 +819,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getFile - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getFile - something went wrong.", exc_info=True)
 
@@ -844,7 +845,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getIntegratedDiagnostic - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getIntegratedDiagnostic - something went wrong.", exc_info=True)
 
@@ -870,7 +871,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getHealthStatus - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getHealthStatus - something went wrong.", exc_info=True)
 
@@ -896,7 +897,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getHistory - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getHistory - something went wrong.", exc_info=True)
 
@@ -922,7 +923,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getInvoice - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getInvoice - something went wrong.", exc_info=True)
 
@@ -948,7 +949,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getInvoiceLine - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getInvoiceLine - something went wrong.", exc_info=True)
 
@@ -974,7 +975,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getOperation - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getOperation - something went wrong.", exc_info=True)
 
@@ -1000,7 +1001,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPayment - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPayment - something went wrong.", exc_info=True)
 
@@ -1026,7 +1027,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPaymentMethod - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPaymentMethod - something went wrong.", exc_info=True)
 
@@ -1052,7 +1053,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPhysicalExam - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPhysicalExam - something went wrong.", exc_info=True)
 
@@ -1078,7 +1079,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPlan - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPlan - something went wrong.", exc_info=True)
 
@@ -1104,7 +1105,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPrescription - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPrescription - something went wrong.", exc_info=True)
 
@@ -1130,7 +1131,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPrescriptionItem - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPrescriptionItem something went wrong.", exc_info=True)
 
@@ -1156,7 +1157,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPresentingProblem - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPresentingProblem - something went wrong.", exc_info=True)
 
@@ -1182,7 +1183,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPresentingProblemLink - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPresentingProblemLink - something went wrong.", exc_info=True)
 
@@ -1208,7 +1209,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getProduct - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getProduct - something went wrong.", exc_info=True)
 
@@ -1234,7 +1235,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getProductGroup - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getProductGroup - something went wrong.", exc_info=True)
 
@@ -1260,7 +1261,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPurchaseOrder - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPurchaseOrder - something went wrong.", exc_info=True)
 
@@ -1286,7 +1287,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getPurchaseOrderItem - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getPurchaseOrderItem - something went wrong.", exc_info=True)
 
@@ -1312,7 +1313,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getReceiveInvoice - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getReceiveInvoice something went wrong.", exc_info=True)
 
@@ -1338,7 +1339,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getReceiveInvoiceItem - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getReceiveInvoiceItem - something went wrong.", exc_info=True)
 
@@ -1364,7 +1365,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getResource - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getResource - something went wrong.", exc_info=True)
 
@@ -1390,7 +1391,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getSeparation - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getSeparation - something went wrong.", exc_info=True)
 
@@ -1416,7 +1417,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getSex - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getSex -  something went wrong.", exc_info=True)
 
@@ -1442,7 +1443,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getSpecies - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getSpecies -  something went wrong.", exc_info=True)
 
@@ -1468,7 +1469,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getTag - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getTag -  something went wrong.", exc_info=True)
 
@@ -1494,7 +1495,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getTagCategory - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getTagCategory -  something went wrong.", exc_info=True)
 
@@ -1520,7 +1521,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getTherapeutic - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getTherapeutic -  something went wrong.", exc_info=True)
 
@@ -1542,7 +1543,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getSystemSetting - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getSystemSetting -  something went wrong.", exc_info=True)
 
@@ -1568,7 +1569,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getUser - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getUser -  something went wrong.", exc_info=True)
 
@@ -1594,7 +1595,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getVaccination - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getVaccination -  something went wrong.", exc_info=True)
 
@@ -1620,7 +1621,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getWebHookEvents - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getWebHookEvents -  something went wrong.", exc_info=True)
 
@@ -1646,7 +1647,7 @@ class ezyvet:
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
-            self.logger.error("ERROR: getWebHooks - something went wrong, getData returned None.", exc_info=True)
+            self.logger.info("No records found.")
         except:
             self.logger.error("ERROR: getWebHooks -  something went wrong.", exc_info=True)
 
