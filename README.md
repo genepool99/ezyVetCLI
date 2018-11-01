@@ -1,11 +1,11 @@
 # ezyVetCli
 
-** A library and command line interface for the ezyVet v1 API written in Python.**  
+**A library and command line interface for the ezyVet v1 API written in Python.**  
 For more information about ezyVet, the cloud-based veterinary practice management
 system visit https://www.ezyvet.com/.
 
 ## License
-** Copyright (C) 2018 - DoveLewis  **  
+**Copyright (C) 2018 - DoveLewis**  
 Author: Avi Solomon (asolomon@dovelewis.org)
 
 This program is free software: you can redistribute it and/or modify
