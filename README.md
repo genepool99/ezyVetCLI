@@ -1,6 +1,6 @@
 # ezyVetCli
 
-A command line interface and Python library for ezyVet
+A command line interface and Python library for ezyVet API v1
 (https://www.ezyvet.com/).
 
 ## License
