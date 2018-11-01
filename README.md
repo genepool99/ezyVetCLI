@@ -29,16 +29,20 @@ This is an open source project and we hope you contribute. For more Information
 about the ezyVet API, which this application is built upon, see
 https://apisandbox.trial.ezyvet.com/api/docs/.
 
-## setup
+## Requirements
+This program has been tested under Ubuntu Linux 16.10 and 18.10. It should
+run under POSIX compatable OS that can run Python 3.5+ but it has not been
+tested.
+
+## Setup
 Copy `setting_Example.py` as `settings.py` and fill in your credential details.
 This file is should not be under source control and should be explicitly ignored.
 
-## Development server setup
 ### Clone the production branch which will always be stable.
 Git: https://gitlab.com/genepool99/ezyvetcli  
 `git clone -b production git@gitlab.com:genepool99/ezyvetcli.git`  
 
-### Install venv
+### Install venv on the system if you have not already
 Using PIP:
 `sudo pip install --upgrade virtualenv`  
 or  
@@ -65,11 +69,12 @@ There will be a verbose output, but you should see no "ERROR:" messages and endi
 ### When your done leave the virtual env with
 `deactivate`  
 
-## Coding standards and Development
+## Coding Standards and Development
 Python3 (3.5.2+)  
+PEP 8 (https://www.python.org/dev/peps/pep-0008/)
 
 ### Directory structure
-ezyvetcli
+-ezyvetcli    <- root directory
   -venv       <- the virtual environment
   -ezyvet     <- the ezyvet library
 
