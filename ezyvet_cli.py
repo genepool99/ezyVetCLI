@@ -500,7 +500,7 @@ def usage():
     ezyVet CLI by DoveLewis
     © 2018 DoveLewis - All Rights Reserved
     Author: Avi Solomon - 2018 (asolomon@dovelewis.org)
-    Version 0.2.0
+    Version 0.2.1
 
     Usage:
         python3 ezyvet_cli.py [-v|-d][-p][-m <number>] [OPTION] <filter>
