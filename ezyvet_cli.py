@@ -502,18 +502,17 @@ def usage():
     Author: Avi Solomon - 2018 (asolomon@dovelewis.org)
     Version 0.2.0
 
-    USAGE:
+    Usage:
         python3 ezyvet_cli.py [-v|-d][-p][-m <number>] [OPTION] <filter>
 
-    modifiers:
+    Modifiers:
         -v                                      Verbose output
         -d, --debug                             Very verbose output
         -p, --pretty                            Human readable output
         -m, --max <number>                      Set the max records returned
                                                 (rounded to nearest 10)
-                                                DEFAULT 10
-
-    options:
+                                                DEFAULT 1
+    Options:
         -h, --help                              Get Help (print this)
         --address <filter>                      Fetch Address(es)
         --animal <filter>                       Fetch Animal(s)
@@ -570,7 +569,7 @@ def usage():
         --webHookEvents <filter>                Fetch webhook event(s)
         --webHooks                              Fetch webhooks
 
-    filters:
+    Filters:
         Flters use standard JSON formatting.:
         '{"id":22}''
 
