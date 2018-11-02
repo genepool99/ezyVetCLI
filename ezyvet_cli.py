@@ -482,7 +482,7 @@ def main():
                     sys.exit
 
     except:
-        logger.error("Something went wrong. Please report issies to asolomon@dovelewis.org.", exc_info=True)
+        logger.error("Something went wrong. Please report issues to asolomon@dovelewis.org.", exc_info=True)
 
 def printFormatted(data, pretty):
     """

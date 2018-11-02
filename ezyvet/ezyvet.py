@@ -93,7 +93,7 @@ class ezyvet:
             self.logger.info("Using working directory: " + self.home_dir)
 
             if self.partner_id == '' or self.client_id == '' or self.client_secret == '' or self.scope == '':
-                self.logger.error("The settings file is incomplete. Make sure the partner id, client id, secret and scope are filled in.")
+                self.logger.error("The settings file is incomplete. Make sure the partner id, client id, secret, and scope are filled in.")
                 sys.exit(2)
 
             self.initConnection()
@@ -170,8 +170,7 @@ class ezyvet:
             self.logger.error("ERROR: Token did not work something went wrong.", exc_info=True)
 
     def fetchToken(self):
-        """
-        Get a fresh access token from the API. If sucessful write it to file
+        """ Get a fresh access token from the API. If sucessful write it to file
         and store it in self.token.
         Parameters
         ----------
@@ -302,7 +301,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -328,7 +328,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -354,7 +355,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -380,7 +382,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -442,7 +445,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -579,7 +583,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -605,7 +610,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -649,7 +655,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -676,7 +683,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -702,7 +710,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -728,7 +737,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -754,7 +764,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -780,7 +791,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -806,7 +818,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -832,7 +845,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -858,7 +872,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -884,7 +899,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -910,7 +926,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -936,7 +953,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -962,7 +980,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -988,7 +1007,8 @@ class ezyvet:
             filter : dictonary
                 A dictionary of filter arguments to be used in the querystring.
             maxpages : int
-                The maximum number of pages to return. Each page has up to 10 records.
+                The maximum number of pages to return. Each page has up to 10
+                records.
 
             Returns
             -------
@@ -1014,7 +1034,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1040,7 +1061,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1066,7 +1088,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1092,7 +1115,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1118,7 +1142,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1144,7 +1169,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1170,7 +1196,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1196,7 +1223,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1222,7 +1250,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1248,7 +1277,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1274,7 +1304,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1300,7 +1331,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1326,7 +1358,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1352,7 +1385,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1378,7 +1412,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1404,7 +1439,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1430,7 +1466,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1456,7 +1493,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1482,7 +1520,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1508,7 +1547,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1556,7 +1596,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1582,7 +1623,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1608,7 +1650,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
@@ -1634,7 +1677,8 @@ class ezyvet:
         filter : dictonary
             A dictionary of filter arguments to be used in the querystring.
         maxpages : int
-            The maximum number of pages to return. Each page has up to 10 records.
+            The maximum number of pages to return. Each page has up to 10
+            records.
 
         Returns
         -------
