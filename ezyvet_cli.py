@@ -571,7 +571,7 @@ def usage():
 
     Filters:
         Flters use standard JSON formatting:
-        '{"id":22}''
+        '{"id":22}'
 
         Example:
         python3 ezyvet_cli.py -p --animal '{"id":64384}'
