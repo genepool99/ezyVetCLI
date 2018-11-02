@@ -477,9 +477,12 @@ def main():
 
                 else:
                     msg = "Unknown option: " + pformat(o)
-                    logger.error("ERROR: " + str(msg))
+                    logger.error(str(msg))
                     usage()
                     sys.exit
+
+    except json.decoder.JSONDecodeError:
+        logger.error("The JSON supplied argument (filter) was malformed. Make sure JSON property names are double quoted. Example: '{\"name\":\"foo\"}'")
 
     except:
         logger.error("Something went wrong. Please report issues to asolomon@dovelewis.org.", exc_info=True)
