@@ -24,6 +24,7 @@ import re
 import logging
 import sys
 import os
+import textwrap
 from urllib.parse import urlencode
 from ezyvet.ezhelpers import writeJson, readJson
 
@@ -267,10 +268,20 @@ class ezyvet:
                         url += str('?page=' + str(i))
 
                 r = requests.request("GET", str(self.url) + str(url), headers=headers)
-                self.logger.debug("GetData Response: " + str(r.content))
-                if r.status_code != 200:
+                self.logger.info("Got status code " + str(r.status_code) + " from request.")
+                if r.status_code == 404:
+                    msg = """
+                            Received 404 not found. It is likely this request
+                            is not available in your version of the ezyVet API.
+                            Please refer to the README for more information.
+                        """
+                    self.logger.info(textwrap.dedent(msg))
+                    return None
+                elif r.status_code != 200:
                     self.logger.error("getData - Unable to retreive data, received " + r.content)
                     return None
+
+                self.logger.debug("GetData Response: " + str(r.content))
 
                 data = json.loads(r.text)
                 self.logger.debug("Got data " + r.text)

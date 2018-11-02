@@ -26,9 +26,15 @@ To use this application, you will need to register and receive an API key
 from the ezyVet API team.    
 The application can be found https://www.ezyvet.com/api-signup
 
+## Important version note
+This program implements the ezyVet version 22.8 API, all options may not
+be available in the version you are running. To check the availability of
+features in your version navigate to your API reference:
+https://YOURCLINICNAME.ezyvet.com/api/docs
+
 ## Contributing
 This is an open source project and we hope you contribute. For more Information
-about the ezyVet API, which this application is built upon, see
+about the ezyVet API, which this application is built upon, see:
 https://apisandbox.trial.ezyvet.com/api/docs/.
 
 ## Requirements
