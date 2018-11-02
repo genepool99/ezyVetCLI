@@ -119,8 +119,8 @@ Lookup invoice #50003:
 Lookup invoice ID 50003 items:  
 `python3 ezyvet_cli.py -p --invoiceLine '{"invoice_id":50003}' -m 30`
 
-Lookup Animal from invoice ID 64364:  
-`python3 ezyvet_cli.py -p --animal '{"id":64384}'`
+Lookup animals named foo:
+`python3 ezyvet_cli.py -p --animal '{"name":"foo"}'`
 
 Lookup contact ID 104834:  
 `python3 ezyvet_cli.py -p --contact '{"id":104834}'`
