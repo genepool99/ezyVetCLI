@@ -98,7 +98,7 @@ class ezyvet:
 
             self.initConnection()
         except:
-            self.logger.error("ERROR: init Failed", exc_info=True)
+            self.logger.error("init Failed", exc_info=True)
 
     def initConnection(self):
         """
@@ -122,19 +122,19 @@ class ezyvet:
                         self.token = self.fetchToken()
                         self.logger.info("Re-testing token.")
                         if self.testToken() is not 200:
-                            self.logger.error("ERROR: Refreshing token did not work, quiting.")
+                            self.logger.error("Refreshing token did not work, quiting.")
                             sys.exit(2)
 
                     self.logger.info("Init Complete.")
 
                 except requests.exceptions.ReadTimeout:
-                    self.logger.error("ERROR: initConnection(self): exceptions.ReadTimeout, trying re-init.", exc_info=True)
+                    self.logger.error("initConnection(self): exceptions.ReadTimeout, trying re-init.", exc_info=True)
                     time.sleep(60)
                     continue
                 break
 
         except:
-            self.logger.error("ERROR: Initconnection Failed", exc_info=True)
+            self.logger.error("Initconnection Failed", exc_info=True)
 
     def testToken(self):
         """ Test the token stored in self.token
@@ -162,12 +162,12 @@ class ezyvet:
             return r.status_code
 
         except TypeError:
-            self.logger.error("ERROR: Token var does not have a token in it.", exc_info=True)
+            self.logger.error("API returned a response that does not have a token in it.", exc_info=True)
             sys.exit(0)
         except NameError:
-            self.logger.error("ERROR: Token did not work.", exc_info=True)
+            self.logger.error("Token did not work.", exc_info=True)
         except:
-            self.logger.error("ERROR: Token did not work something went wrong.", exc_info=True)
+            self.logger.error("Token did not work something went wrong.", exc_info=True)
 
     def fetchToken(self):
         """ Get a fresh access token from the API. If sucessful write it to file
@@ -199,7 +199,7 @@ class ezyvet:
             self.logger.info(r.text)
             response = r.json()
             if "access_token" not in response:
-                self.logger.error("ERROR: We got a message not an access token")
+                self.logger.error("We got a message not an access token")
                 self.logger.error(pformat(response))
                 writeJson(response, self.home_dir + "err.json")
                 self.logger.info("Wrote error to " + self.home_dir + "err.json")
@@ -211,9 +211,9 @@ class ezyvet:
             return response
 
         except requests.exceptions.ConnectionError:
-            self.logger.error("ERROR: fetchToken - Connection error", exc_info=True)
+            self.logger.error("fetchToken - Connection error", exc_info=True)
         except requests.exceptions.Timeout:
-            self.logger.error("ERROR: fetchToken - Timeout updating...", exc_info=True)
+            self.logger.error("fetchToken - Timeout updating...", exc_info=True)
         except:
             self.logger.error("fetchToken Failed", exc_info=True)
 
@@ -269,14 +269,14 @@ class ezyvet:
                 r = requests.request("GET", str(self.url) + str(url), headers=headers)
                 self.logger.debug("GetData Response: " + str(r.content))
                 if r.status_code != 200:
-                    self.logger.error("ERROR: getData - Unable to retreive data, received " + r.content)
+                    self.logger.error("getData - Unable to retreive data, received " + r.content)
                     return None
 
                 data = json.loads(r.text)
                 self.logger.debug("Got data " + r.text)
 
                 if "meta" not in data or "items" not in data:
-                    self.logger.error("ERROR: getData - meta or items not in data.")
+                    self.logger.error("getData - meta or items not in data.")
                     return None
 
                 for d in data["items"]:
@@ -290,7 +290,7 @@ class ezyvet:
             return items
 
         except:
-            self.logger.error("ERROR: getData - something went wrong.", exc_info=True)
+            self.logger.error("getData - something went wrong.", exc_info=True)
 
     def getAddress(self, filter=None, maxpages=1):
         """ Get addresses(s) data given filters.
@@ -317,7 +317,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getAddress - something went wrong.", exc_info=True)
+            self.logger.error("getAddress - something went wrong.", exc_info=True)
 
     def getAnimal(self, filter=None, maxpages=1):
         """ Get animal(s) data given filters.
@@ -344,7 +344,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getAnimal - something went wrong.", exc_info=True)
+            self.logger.error("getAnimal - something went wrong.", exc_info=True)
 
     def getAnimalColor(self, filter=None, maxpages=1):
         """ Get animal color(s) data given filters.
@@ -371,7 +371,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getAnimalColor - something went wrong.", exc_info=True)
+            self.logger.error("getAnimalColor - something went wrong.", exc_info=True)
 
     def getAppointment(self, filter=None, maxpages=1):
         """ Get appointment(s) given filters.
@@ -398,7 +398,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getAppointment - something went wrong.", exc_info=True)
+            self.logger.error("getAppointment - something went wrong.", exc_info=True)
 
     def getApptStatus(self):
         """ Get all of the appointment status codes.
@@ -416,7 +416,7 @@ class ezyvet:
             return self.getData("/appointmentstatus",maxpages=10)               # TODO: I hardcoded maxpages=10, I don't think it needs that many.
 
         except:
-            self.logger.error("ERROR: getApptStatus went wrong.", exc_info=True)
+            self.logger.error("getApptStatus went wrong.", exc_info=True)
 
     def getApptType(self):
         """ Get all of the appointment type codes.
@@ -434,7 +434,7 @@ class ezyvet:
             return self.getData("/appointmenttype",maxpages=10)                 # TODO: I hardcoded maxpages=10, I don't think it needs that many.
 
         except:
-            self.logger.error("ERROR: getApptType went wrong.", exc_info=True)
+            self.logger.error("getApptType went wrong.", exc_info=True)
 
     def getAssessment(self, filter=None, maxpages=1):
         """ Get assessment(s) data given filters.
@@ -462,7 +462,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getAssessment - something went wrong.", exc_info=True)
+            self.logger.error("getAssessment - something went wrong.", exc_info=True)
 
     def getAttachment(self, filter=None, maxpages=1):
         """ Get attachment(s) data given filters.
@@ -489,7 +489,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getAttachment - something went wrong.", exc_info=True)
+            self.logger.error("getAttachment - something went wrong.", exc_info=True)
 
     def getBreed(self, filter=None, maxpages=1):
         """ Get breed(s) data given filters.
@@ -516,7 +516,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getBreed - something went wrong.", exc_info=True)
+            self.logger.error("getBreed - something went wrong.", exc_info=True)
 
     def getCommunication(self, filter=None, maxpages=1):
         """ Get communication(s) given filters. Note: This function
@@ -545,7 +545,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getCommunications - something went wrong.", exc_info=True)
+            self.logger.error("getCommunications - something went wrong.", exc_info=True)
 
     def getConsult(self, filter=None, maxpages=1):
         """ Get consult(s) data given filters.
@@ -572,7 +572,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+            self.logger.error("getConsult - something went wrong.", exc_info=True)
 
     def getContact(self, filter=None, maxpages=1):
         """ Get contact(s) data given filters.
@@ -599,7 +599,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getConsult - something went wrong.", exc_info=True)
+            self.logger.error("getConsult - something went wrong.", exc_info=True)
 
     def getContactDetail(self, filter=None, maxpages=1):
         """ Get contact detail(s) data given filters.
@@ -626,7 +626,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getContactDetail - something went wrong.", exc_info=True)
+            self.logger.error("getContactDetail - something went wrong.", exc_info=True)
 
     def getContactDetailType(self):
         """ Get all of the contact detail types contact method, such as “Mobile” or “Email”.
@@ -644,7 +644,7 @@ class ezyvet:
             return self.getData("/contactdetailtype",maxpages=10)               # TODO: I hardcoded maxpages=10, I don't think it needs that many.
 
         except:
-            self.logger.error("ERROR: getContactDetailType something went wrong.", exc_info=True)
+            self.logger.error("getContactDetailType something went wrong.", exc_info=True)
 
     def getCountry(self, filter=None, maxpages=1):
         """ Get country(s) data given filters.
@@ -671,7 +671,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getCountry - something went wrong.", exc_info=True)
+            self.logger.error("getCountry - something went wrong.", exc_info=True)
 
     def getDiagnostic(self, filter=None, maxpages=1):
         """ Get diagnostic(s) data given filters.
@@ -699,7 +699,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getDiagnostic - something went wrong.", exc_info=True)
+            self.logger.error("getDiagnostic - something went wrong.", exc_info=True)
 
     def getDiagnosticResult(self, filter=None, maxpages=1):
         """ Get diagnostic result(s) data given filters.
@@ -726,7 +726,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getDiagnosticResult - something went wrong.", exc_info=True)
+            self.logger.error("getDiagnosticResult - something went wrong.", exc_info=True)
 
     def getDiagnosticResultItem(self, filter=None, maxpages=1):
         """ Get diagnostic result items(s) data given filters.
@@ -753,7 +753,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getDiagnosticResultItem - something went wrong.", exc_info=True)
+            self.logger.error("getDiagnosticResultItem - something went wrong.", exc_info=True)
 
     def getDiagnosticRequest(self, filter=None, maxpages=1):
         """ Get diagnostic request(s) data given filters.
@@ -780,7 +780,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getDiagnosticRequst - something went wrong.", exc_info=True)
+            self.logger.error("getDiagnosticRequst - something went wrong.", exc_info=True)
 
     def getDiagnosticRequstItem(self, filter=None, maxpages=1):
         """ Get diagnostic request item(s) data given filters.
@@ -807,7 +807,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getDiagnosticRequstItem - something went wrong.", exc_info=True)
+            self.logger.error("getDiagnosticRequstItem - something went wrong.", exc_info=True)
 
     def getFile(self, filter=None, maxpages=1):
         """ Get files(s) data given filters.
@@ -834,7 +834,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getFile - something went wrong.", exc_info=True)
+            self.logger.error("getFile - something went wrong.", exc_info=True)
 
     def getIntegratedDiagnostic(self, filter=None, maxpages=1):
         """ Get integrated partner diagnostic(s) data given filters.
@@ -861,7 +861,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getIntegratedDiagnostic - something went wrong.", exc_info=True)
+            self.logger.error("getIntegratedDiagnostic - something went wrong.", exc_info=True)
 
     def getHealthStatus(self, filter=None, maxpages=1):
         """ Get health status metrics(s) data given filters.
@@ -888,7 +888,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getHealthStatus - something went wrong.", exc_info=True)
+            self.logger.error("getHealthStatus - something went wrong.", exc_info=True)
 
     def getHistory(self, filter=None, maxpages=1):
         """ Get history result(s) data given filters.
@@ -915,7 +915,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getHistory - something went wrong.", exc_info=True)
+            self.logger.error("getHistory - something went wrong.", exc_info=True)
 
     def getInvoice(self, filter=None, maxpages=1):
         """ Get invoice(s) data given filters.
@@ -942,7 +942,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getInvoice - something went wrong.", exc_info=True)
+            self.logger.error("getInvoice - something went wrong.", exc_info=True)
 
     def getInvoiceLine(self, filter=None, maxpages=1):
         """ Get invoice lines(s) data given filters.
@@ -969,7 +969,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getInvoiceLine - something went wrong.", exc_info=True)
+            self.logger.error("getInvoiceLine - something went wrong.", exc_info=True)
 
     def getOperation(self, filter=None, maxpages=1):
         """ Get operation(s) data given filters.
@@ -996,7 +996,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getOperation - something went wrong.", exc_info=True)
+            self.logger.error("getOperation - something went wrong.", exc_info=True)
 
     def getPayment(self, filter=None, maxpages=1):
         """ Get payment(s) data given filters.
@@ -1023,7 +1023,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPayment - something went wrong.", exc_info=True)
+            self.logger.error("getPayment - something went wrong.", exc_info=True)
 
     def getPaymentMethod(self, filter=None, maxpages=1):
         """ Get payment method(s) data given filters.
@@ -1050,7 +1050,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPaymentMethod - something went wrong.", exc_info=True)
+            self.logger.error("getPaymentMethod - something went wrong.", exc_info=True)
 
     def getPhysicalExam(self, filter=None, maxpages=1):
         """ Get physical exam(s) data given filters.
@@ -1077,7 +1077,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPhysicalExam - something went wrong.", exc_info=True)
+            self.logger.error("getPhysicalExam - something went wrong.", exc_info=True)
 
     def getPlan(self, filter=None, maxpages=1):
         """ Get paln(s) data given filters.
@@ -1104,7 +1104,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPlan - something went wrong.", exc_info=True)
+            self.logger.error("getPlan - something went wrong.", exc_info=True)
 
     def getPrescription(self, filter=None, maxpages=1):
         """ Get prescription(s) data given filters.
@@ -1131,7 +1131,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPrescription - something went wrong.", exc_info=True)
+            self.logger.error("getPrescription - something went wrong.", exc_info=True)
 
     def getPrescriptionItem(self, filter=None, maxpages=1):
         """ Get prescription item(s) data given filters.
@@ -1158,7 +1158,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPrescriptionItem something went wrong.", exc_info=True)
+            self.logger.error("getPrescriptionItem something went wrong.", exc_info=True)
 
     def getPresentingProblem(self, filter=None, maxpages=1):
         """ Get presenting problem(s) data given filters.
@@ -1185,7 +1185,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPresentingProblem - something went wrong.", exc_info=True)
+            self.logger.error("getPresentingProblem - something went wrong.", exc_info=True)
 
     def getPresentingProblemLink(self, filter=None, maxpages=1):
         """ Get presenting problem link(s) data given filters.
@@ -1212,7 +1212,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPresentingProblemLink - something went wrong.", exc_info=True)
+            self.logger.error("getPresentingProblemLink - something went wrong.", exc_info=True)
 
     def getProduct(self, filter=None, maxpages=1):
         """ Get product(s) data given filters.
@@ -1239,7 +1239,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getProduct - something went wrong.", exc_info=True)
+            self.logger.error("getProduct - something went wrong.", exc_info=True)
 
     def getProductGroup(self, filter=None, maxpages=1):
         """ Get product groups(s) data given filters.
@@ -1266,7 +1266,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getProductGroup - something went wrong.", exc_info=True)
+            self.logger.error("getProductGroup - something went wrong.", exc_info=True)
 
     def getPurchaseOrder(self, filter=None, maxpages=1):
         """ Get purchase order(s) data given filters.
@@ -1293,7 +1293,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPurchaseOrder - something went wrong.", exc_info=True)
+            self.logger.error("getPurchaseOrder - something went wrong.", exc_info=True)
 
     def getPurchaseOrderItem(self, filter=None, maxpages=1):
         """ Get purchase order items(s) data given filters.
@@ -1320,7 +1320,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getPurchaseOrderItem - something went wrong.", exc_info=True)
+            self.logger.error("getPurchaseOrderItem - something went wrong.", exc_info=True)
 
     def getReceiveInvoice(self, filter=None, maxpages=1):
         """ Get receive invoice(s) data given filters.
@@ -1347,7 +1347,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getReceiveInvoice something went wrong.", exc_info=True)
+            self.logger.error("getReceiveInvoice something went wrong.", exc_info=True)
 
     def getReceiveInvoiceItem(self, filter=None, maxpages=1):
         """ Get receive invoice items(s) data given filters.
@@ -1374,7 +1374,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getReceiveInvoiceItem - something went wrong.", exc_info=True)
+            self.logger.error("getReceiveInvoiceItem - something went wrong.", exc_info=True)
 
     def getResource(self, filter=None, maxpages=1):
         """ Get resource(s) data given filters.
@@ -1401,7 +1401,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getResource - something went wrong.", exc_info=True)
+            self.logger.error("getResource - something went wrong.", exc_info=True)
 
     def getSeparation(self, filter=None, maxpages=1):
         """ Get separation(s) data given filters.
@@ -1428,7 +1428,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getSeparation - something went wrong.", exc_info=True)
+            self.logger.error("getSeparation - something went wrong.", exc_info=True)
 
     def getSex(self, filter=None, maxpages=1):
         """ Get sex(s) data given filters.
@@ -1455,7 +1455,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getSex -  something went wrong.", exc_info=True)
+            self.logger.error("getSex -  something went wrong.", exc_info=True)
 
     def getSpecies(self, filter=None, maxpages=1):
         """ Get species(s) data given filters.
@@ -1482,7 +1482,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getSpecies -  something went wrong.", exc_info=True)
+            self.logger.error("getSpecies -  something went wrong.", exc_info=True)
 
     def getTag(self, filter=None, maxpages=1):
         """ Get tag(s) data given filters.
@@ -1509,7 +1509,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getTag -  something went wrong.", exc_info=True)
+            self.logger.error("getTag -  something went wrong.", exc_info=True)
 
     def getTagCategory(self, filter=None, maxpages=1):
         """ Get tag category(s) data given filters.
@@ -1536,7 +1536,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getTagCategory -  something went wrong.", exc_info=True)
+            self.logger.error("getTagCategory -  something went wrong.", exc_info=True)
 
     def getTherapeutic(self, filter=None, maxpages=1):
         """ Get therapeutic(s) data given filters.
@@ -1563,7 +1563,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getTherapeutic -  something went wrong.", exc_info=True)
+            self.logger.error("getTherapeutic -  something went wrong.", exc_info=True)
 
     def getSystemSetting(self):
         """ Get systemsetting data.
@@ -1585,7 +1585,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getSystemSetting -  something went wrong.", exc_info=True)
+            self.logger.error("getSystemSetting -  something went wrong.", exc_info=True)
 
     def getUser(self, filter=None, maxpages=1):
         """ Get user(s) data given filters.
@@ -1612,7 +1612,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getUser -  something went wrong.", exc_info=True)
+            self.logger.error("getUser -  something went wrong.", exc_info=True)
 
     def getVaccination(self, filter=None, maxpages=1):
         """ Get user(s) data given filters.
@@ -1639,7 +1639,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getVaccination -  something went wrong.", exc_info=True)
+            self.logger.error("getVaccination -  something went wrong.", exc_info=True)
 
     def getWebHookEvents(self):
         """ Get wehooks(s) events list.
@@ -1666,7 +1666,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getWebHookEvents -  something went wrong.", exc_info=True)
+            self.logger.error("getWebHookEvents -  something went wrong.", exc_info=True)
 
     def getWebHooks(self):
         """ Get webhooks(s) list.
@@ -1693,7 +1693,7 @@ class ezyvet:
         except TypeError:
             self.logger.info("No records found.")
         except:
-            self.logger.error("ERROR: getWebHooks -  something went wrong.", exc_info=True)
+            self.logger.error("getWebHooks -  something went wrong.", exc_info=True)
 
     def lookupApptStatus(self, lookup):
         """ Lookup a status code or names.
@@ -1725,7 +1725,7 @@ class ezyvet:
 
             codes = self.getApptStatus()         # get a fresh list of codes TODO: This coud be chached
             if codes is None:
-                self.logger.error("ERROR: Could not retreive list of appointment status types.")
+                self.logger.error("Could not retreive list of appointment status types.")
                 return None
             self.logger.debug("Got codes: " + pformat(codes))
 
@@ -1746,4 +1746,4 @@ class ezyvet:
                         return {"id":rvalue}
 
         except:
-            self.logger.error("ERROR: lookupApptStatus - something went wrong.", exc_info=True)
+            self.logger.error("lookupApptStatus - something went wrong.", exc_info=True)
