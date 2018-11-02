@@ -1579,7 +1579,7 @@ class ezyvet:
         """
         try:
             url = "/systemsetting"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
+            data = self.getData(url)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
