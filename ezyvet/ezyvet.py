@@ -1652,7 +1652,7 @@ class ezyvet:
         except:
             self.logger.error("getVaccination -  something went wrong.", exc_info=True)
 
-    def getWebHookEvents(self):
+    def getWebHookEvents(self, maxpages=1):
         """ Get wehooks(s) events list.
             See: https://apisandbox.trial.ezyvet.com/api/docs/#webhookevents
 
@@ -1671,7 +1671,7 @@ class ezyvet:
         """
         try:
             url = "/webhookevents"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
+            data = self.getData(url, maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
@@ -1679,7 +1679,7 @@ class ezyvet:
         except:
             self.logger.error("getWebHookEvents -  something went wrong.", exc_info=True)
 
-    def getWebHooks(self):
+    def getWebHooks(self, maxpages=1):
         """ Get webhooks(s) list.
             See: https://apisandbox.trial.ezyvet.com/api/docs/#webhooks
 
@@ -1698,7 +1698,7 @@ class ezyvet:
         """
         try:
             url = "/webhooks"
-            data = self.getData(url,filter=filter,maxpages=maxpages)
+            data = self.getData(url,maxpages=maxpages)
             self.logger.info("Returned " + str(len(data)) + " records.")
             return data
         except TypeError:
