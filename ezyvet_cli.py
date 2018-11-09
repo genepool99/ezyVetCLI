@@ -88,8 +88,8 @@ def main():
                                 "systemSetting",
                                 "user=",
                                 "vaccination=",
-                                "webHookEvents=",
-                                "webHooks=",
+                                "webHookEvents",
+                                "webHooks",
                                 "help",
                                 "debug",
                                 "max=",
@@ -461,14 +461,14 @@ def main():
 
                 elif o == "--webHookEvents":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up web hook events with filter: " + str(a))
-                    data = e.getWebHookEvents(filter = json.loads(a), maxpages=max)
+                    logger.info("Looking up webhook events.")
+                    data = e.getWebHookEvents(maxpages=max)
                     printFormatted(data, pretty)
 
                 elif o == "--webHooks":
                     e = ezyvet.ezyvet(SETTINGS, logger)
-                    logger.info("Looking up web hooks with filter: " + str(a))
-                    data = e.getWebHooks(filter = json.loads(a), maxpages=max)
+                    logger.info("Looking up webhooks.")
+                    data = e.getWebHooks(maxpages=max)
                     printFormatted(data, pretty)
 
                 elif o == "-T":                                 # Test the connection to ezyvet
@@ -569,7 +569,7 @@ def usage():
         --systemSetting                         Fetch system settings
         --user <filter>                         Fetch user(s)
         --vaccination <filter>                  Fetch vaccination(s)
-        --webHookEvents <filter>                Fetch webhook event(s)
+        --webHookEvents                         Fetch webhook event(s)
         --webHooks                              Fetch webhooks
 
     Filters:
