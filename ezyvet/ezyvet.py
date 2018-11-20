@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import requests
+import requests_cache
 import json
 from pprint import pprint,pformat
 import re
@@ -73,6 +74,14 @@ class ezyvet:
             self.logger = logger or logging.getLogger(__name__)
             self.settings = settings
 
+            if 'USE_CACHE' in settings and settings["USE_CACHE"] is True:
+                if "CACHE_EXPIRE" in settings:
+                    sec = settings["CACHE_EXPIRE"]
+                else:
+                    sec = 300   # default to 300ms if not set
+                self.logger.info("Turning requests cache on, will expire in: " + str(sec) + " miliseconds.")
+                requests_cache.install_cache(settings["HOME_DIR"]+'api_cache', backend='sqlite', expire_after=sec)
+
             if sandbox is False:
                 self.url = settings["PROD_URL"]
                 self.partner_id = self.settings['PARTNER_ID'],
@@ -118,7 +127,8 @@ class ezyvet:
                         self.token = self.fetchToken()
 
                     self.logger.info("Testing token.")
-                    if self.testToken() is not 200:                             # Lets test the Token
+                    test = self.testToken()
+                    if test is not 200 or test is None:                         # Lets test the Token
                         self.logger.info("Test Failed, refreshing token.")
                         self.token = self.fetchToken()
                         self.logger.info("Re-testing token.")
@@ -160,6 +170,11 @@ class ezyvet:
             # ezyVet in Auckland
             r = requests.request("GET", self.url + "/address?id=1", headers=headers)
             self.logger.debug("Token testing response: " + str(r.content))
+            response = r.json()
+            if "messages" in response:
+                if response["messages"][0]["level"] == "error":
+                    self.logger.error("Received an error testing token: " + pformat(response))
+                    return None
             return r.status_code
 
         except TypeError:
