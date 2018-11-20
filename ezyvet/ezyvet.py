@@ -27,7 +27,10 @@ import sys
 import os
 import textwrap
 from urllib.parse import urlencode
-from ezyvet.ezhelpers import writeJson, readJson
+try:
+    from ezyvet.ezhelpers import writeJson, readJson
+except ImportError:
+    from .ezhelpers import writeJson, readJson
 
 class ezyvet:
     """
