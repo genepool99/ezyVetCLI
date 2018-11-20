@@ -118,7 +118,8 @@ class ezyvet:
                         self.token = self.fetchToken()
 
                     self.logger.info("Testing token.")
-                    if self.testToken() is not 200:                             # Lets test the Token
+                    test = self.testToken()
+                    if test is not 200 or test is None:                         # Lets test the Token
                         self.logger.info("Test Failed, refreshing token.")
                         self.token = self.fetchToken()
                         self.logger.info("Re-testing token.")
@@ -160,6 +161,11 @@ class ezyvet:
             # ezyVet in Auckland
             r = requests.request("GET", self.url + "/address?id=1", headers=headers)
             self.logger.debug("Token testing response: " + str(r.content))
+            response = r.json()
+            if "messages" in response:
+                if response["messages"][0]["level"] == "error":
+                    self.logger.error("Received an error testing token: " + pformat(response))
+                    return None
             return r.status_code
 
         except TypeError:
