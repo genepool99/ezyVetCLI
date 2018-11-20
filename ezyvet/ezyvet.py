@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import requests
+import requests_cache
 import json
 from pprint import pprint,pformat
 import re
@@ -72,6 +73,14 @@ class ezyvet:
         try:
             self.logger = logger or logging.getLogger(__name__)
             self.settings = settings
+
+            if 'USE_CACHE' in settings and settings["USE_CACHE"] is True:
+                if "CACHE_EXPIRE" in settings:
+                    sec = settings["CACHE_EXPIRE"]
+                else:
+                    sec = 300   # default to 300ms if not set
+                self.logger.info("Turning requests cache on, will expire in: " + str(sec) + " miliseconds.")
+                requests_cache.install_cache(settings["HOME_DIR"]+'api_cache', backend='sqlite', expire_after=sec)
 
             if sandbox is False:
                 self.url = settings["PROD_URL"]
