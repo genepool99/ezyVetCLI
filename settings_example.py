@@ -12,6 +12,8 @@ SETTINGS = {
     "CLIENT_ID":"",
     "CLIENT_SECRET":"",
     "HOME_DIR":"/home/user/.ezyvetcli",                      # This should be somewhere secure
+    "USE_CACHE":False,                                       # Do you want to locally cache API responses for testing
+    "CACHE_EXPIRE":300,                                      # if caching is on, time to expire in ms
     "SCOPE":[
         "read-address",
         "read-animal",
