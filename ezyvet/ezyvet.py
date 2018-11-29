@@ -296,7 +296,7 @@ class ezyvet:
                     self.logger.info(textwrap.dedent(msg))
                     return None
                 elif r.status_code != 200:
-                    self.logger.error("getData - Unable to retreive data, received " + r.content)
+                    self.logger.error("getData - Unable to retreive data, received " + str(r.content))
                     return None
 
                 self.logger.debug("GetData Response: " + str(r.content))
