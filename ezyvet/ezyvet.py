@@ -175,7 +175,7 @@ class ezyvet:
             self.logger.debug("Token testing response: " + str(r.content))
             response = r.json()
             if "messages" in response and len(response["messages"]) > 0:
-                if level in response["messages"][0] and response["messages"][0]["level"] == "error":
+                if "level" in response["messages"][0] and response["messages"][0]["level"] == "error":
                     self.logger.error("Received an error testing token: " + pformat(response))
                     return None
             return r.status_code
