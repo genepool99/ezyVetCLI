@@ -36,7 +36,7 @@ def writeJson(data, filename):
         with open(filename, 'w') as outfile:
             json.dump(data, outfile)
     except OSError:
-        logger.error("ERROR: Could not write to " + self.home_dir + " check the path and permissions and try again.")
+        logger.error("Could not write to " + self.home_dir + " check the path and permissions and try again.")
     except:
         logger.error("Write JSON Failed", exc_info=True)
 
@@ -47,6 +47,8 @@ def readJson(filename):
             data = json.load(f)
         return data
     except ValueError as e:
-        logger.error("ERROR: Error reading JSON file.")
+        logger.error("Error reading JSON file.")
+    except FileNotFoundError as e:
+        logger.error("There is no token on file.")
     except:
         logger.error("Read JSON Failed", exc_info=True)
