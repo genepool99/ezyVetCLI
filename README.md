@@ -48,8 +48,8 @@ This file is should never be under source control and should be explicitly
 ignored in your `.gitignore` file.
 
 ### Clone the production (stable) branch.
-Git: https://gitlab.com/genepool99/ezyvetcli  
-`git clone -b production git@gitlab.com:genepool99/ezyvetcli.git`  
+Git: https://github.com/genepool99/ezyVetCLI.git   
+`git clone -b production git@https://github.com/genepool99/ezyVetCLI.git`  
 
 ### Install venv on the system if you have not already
 Using PIP:
