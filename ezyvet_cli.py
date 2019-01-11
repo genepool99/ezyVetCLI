@@ -39,7 +39,7 @@ def main():
                                 "address=",
                                 "animal=",
                                 "animalColor=",
-                                "appointment="
+                                "appointment=",
                                 "appointmentStatus",
                                 "appointmentStatusLookup=",
                                 "appointmentType",
@@ -517,10 +517,10 @@ def usage():
                                                 DEFAULT 1
     Options:
         -h, --help                              Get Help (print this)
-        --address <filter>                      Fetch Address(es)
-        --animal <filter>                       Fetch Animal(s)
+        --address <filter>                      Fetch address(es)
+        --animal <filter>                       Fetch animal(s)
         --animalcolor <filter>                  Fetch Animal Color(s)
-        --appointment <filter>                  Fetch Appointment(s)
+        --appointment <filter>                  Fetch appointment(s)
         --appointmentStatus <filter>            Fetch appointment status(es)
         --appointmentStatusLookup <id or name>  Lookup appointment status by ID or name
         --appointmentType <filter>              Fetch appointment type(s)
