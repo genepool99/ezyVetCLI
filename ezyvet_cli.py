@@ -39,7 +39,7 @@ def main():
                                 "address=",
                                 "animal=",
                                 "animalColor=",
-                                "appointment="
+                                "appointment=",
                                 "appointmentStatus",
                                 "appointmentStatusLookup=",
                                 "appointmentType",
@@ -503,7 +503,7 @@ def usage():
     ezyVet CLI by DoveLewis
     © 2018 DoveLewis - All Rights Reserved
     Author: Avi Solomon - 2018 (asolomon@dovelewis.org)
-    Version 0.2.7
+    Version 0.3.0
 
     Usage:
         python3 ezyvet_cli.py [-v|-d][-p][-m <number>] [OPTION] <filter>
@@ -517,10 +517,10 @@ def usage():
                                                 DEFAULT 1
     Options:
         -h, --help                              Get Help (print this)
-        --address <filter>                      Fetch Address(es)
-        --animal <filter>                       Fetch Animal(s)
+        --address <filter>                      Fetch address(es)
+        --animal <filter>                       Fetch animal(s)
         --animalcolor <filter>                  Fetch Animal Color(s)
-        --appointment <filter>                  Fetch Appointment(s)
+        --appointment <filter>                  Fetch appointment(s)
         --appointmentStatus <filter>            Fetch appointment status(es)
         --appointmentStatusLookup <id or name>  Lookup appointment status by ID or name
         --appointmentType <filter>              Fetch appointment type(s)

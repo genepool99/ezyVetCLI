@@ -175,7 +175,7 @@ class ezyvet:
             self.logger.debug("Token testing response: " + str(r.content))
             response = r.json()
             if "messages" in response and len(response["messages"]) > 0:
-                if level in response["messages"][0] and response["messages"][0]["level"] == "error":
+                if "level" in response["messages"][0] and response["messages"][0]["level"] == "error":
                     self.logger.error("Received an error testing token: " + pformat(response))
                     return None
             return r.status_code
@@ -296,7 +296,7 @@ class ezyvet:
                     self.logger.info(textwrap.dedent(msg))
                     return None
                 elif r.status_code != 200:
-                    self.logger.error("getData - Unable to retreive data, received " + r.content)
+                    self.logger.error("getData - Unable to retreive data, received " + str(r.content))
                     return None
 
                 self.logger.debug("GetData Response: " + str(r.content))

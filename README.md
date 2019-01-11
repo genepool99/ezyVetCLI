@@ -104,10 +104,10 @@ Get help using the program:
 `python3 ezyvet_cli.py --help`
 
 Get the list of appointment status codes:  
-`python3 ezyvet_cli.py -s`
+`python3 ezyvet_cli.py --appointmentStatus ''`
 
 To get the first page of active records for hospitalized patients (assuming "In Hospital" is code 9):  
-`python3 ezyvet_cli.py -a '{"active":"true", "appointment_status_id":9}'`
+`python3 ezyvet_cli.py --appointment '{"active":"true", "appointment_status_id":9}'`
 
 #### More Examples
 Lookup a countries (1 page):  
