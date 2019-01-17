@@ -82,7 +82,7 @@ def main():
                                 "separation=",
                                 "sex=",
                                 "species=",
-                                "tags=",
+                                "tag=",
                                 "tagCategory=",
                                 "therapeutic=",
                                 "systemSetting",
